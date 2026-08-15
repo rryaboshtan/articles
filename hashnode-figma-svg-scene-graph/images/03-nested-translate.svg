@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="tr-title tr-desc">
+  <title id="tr-title">Nested Figma translate versus flattened icon coordinates</title>
+  <desc id="tr-desc">Left: artboard-sized viewBox with a group translated to the icon. Right: tight viewBox and path numbers that start near the origin.</desc>
+  <defs>
+    <linearGradient id="tr-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #c4b5fd; letter-spacing: 0.12em; }
+      .title { font: 700 48px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .h { font: 700 36px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 28px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #e2e8f0; }
+      .mono { font: 700 26px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #ddd6fe; }
+    </style>
+  </defs>
+  <rect width="1600" height="920" fill="url(#tr-bg)"/>
+  <text class="kicker" x="64" y="68">TRANSFORMS</text>
+  <text class="title" x="64" y="132">Do not patch translate in every PR</text>
+
+  <rect x="64" y="200" width="720" height="640" rx="28" fill="#111827" stroke="#b91c1c" stroke-width="4"/>
+  <text class="h" x="104" y="270">As exported</text>
+  <text class="mono" x="104" y="330">viewBox="0 0 1440 900"</text>
+  <text class="mono" x="104" y="378">g transform="translate(712 438)"</text>
+  <rect x="140" y="430" width="560" height="280" rx="16" fill="#1e1b4b" stroke="#818cf8" stroke-width="3" stroke-dasharray="10 8"/>
+  <text class="p" x="168" y="490">Artboard space</text>
+  <rect x="520" y="560" width="72" height="72" fill="#f472b6"/>
+  <text class="p" x="104" y="780">Glyph lives at page coordinates.</text>
+
+  <rect x="816" y="200" width="720" height="640" rx="28" fill="#111827" stroke="#15803d" stroke-width="4"/>
+  <text class="h" x="856" y="270">After flatten</text>
+  <text class="mono" x="856" y="330">viewBox="0 0 24 24"</text>
+  <text class="mono" x="856" y="378">path in 0..24, no wrapper g</text>
+  <rect x="980" y="450" width="280" height="280" rx="16" fill="#052e16" stroke="#22c55e" stroke-width="5"/>
+  <rect x="1064" y="534" width="112" height="112" fill="#4ade80"/>
+  <text class="p" x="856" y="780">Contract matches the ink.</text>
+</svg>

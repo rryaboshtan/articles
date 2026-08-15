@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+  <title id="t">Four SVG embedding methods by job</title>
+  <desc id="d">Inline or component for UI, img for logos and art, CSS background for decoration, sprite for shared icon sets</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1419"/>
+      <stop offset="100%" stop-color="#1a2634"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#243246"/>
+      <stop offset="100%" stop-color="#1a222c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1040" cy="90" r="180" fill="#3d9cf0" fill-opacity=".08"/>
+  <circle cx="120" cy="540" r="140" fill="#7fd99a" fill-opacity=".06"/>
+
+  <text x="64" y="78" fill="#8b9bb0" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="0.04em">SVG EMBEDDING</text>
+  <text x="64" y="140" fill="#e7eef7" font-family="Segoe UI, Arial, sans-serif" font-size="48" font-weight="700">Pick by job, not habit</text>
+  <text x="64" y="188" fill="#a8b8cc" font-family="Segoe UI, Arial, sans-serif" font-size="24">Inline / img / CSS background / sprite</text>
+
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="64" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
+    <text x="88" y="298" fill="#3d9cf0" font-size="18" font-weight="700">Inline / component</text>
+    <text x="88" y="336" fill="#e7eef7" font-size="20" font-weight="600">UI chrome</text>
+    <text x="88" y="372" fill="#8b9bb0" font-size="16">theme / hover / a11y</text>
+    <text x="88" y="430" fill="#7fd99a" font-size="15" font-weight="600">currentColor</text>
+    <text x="88" y="458" fill="#8b9bb0" font-size="15">watch the bundle</text>
+
+    <rect x="338" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
+    <text x="362" y="298" fill="#3d9cf0" font-size="18" font-weight="700">&lt;img src&gt;</text>
+    <text x="362" y="336" fill="#e7eef7" font-size="20" font-weight="600">Logo / figure</text>
+    <text x="362" y="372" fill="#8b9bb0" font-size="16">honest alt / CDN cache</text>
+    <text x="362" y="430" fill="#7fd99a" font-size="15" font-weight="600">isolation</text>
+    <text x="362" y="458" fill="#8b9bb0" font-size="15">no deep CSS</text>
+
+    <rect x="612" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
+    <text x="636" y="298" fill="#3d9cf0" font-size="18" font-weight="700">CSS background</text>
+    <text x="636" y="336" fill="#e7eef7" font-size="20" font-weight="600">Decoration</text>
+    <text x="636" y="372" fill="#8b9bb0" font-size="16">atmosphere only</text>
+    <text x="636" y="430" fill="#e6c07b" font-size="15" font-weight="600">invisible to AT</text>
+    <text x="636" y="458" fill="#8b9bb0" font-size="15">zero content SEO</text>
+
+    <rect x="886" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
+    <text x="910" y="298" fill="#3d9cf0" font-size="18" font-weight="700">Sprite + use</text>
+    <text x="910" y="336" fill="#e7eef7" font-size="20" font-weight="600">Icon system</text>
+    <text x="910" y="372" fill="#8b9bb0" font-size="16">shared chrome set</text>
+    <text x="910" y="430" fill="#7fd99a" font-size="15" font-weight="600">one cached sheet</text>
+    <text x="910" y="458" fill="#8b9bb0" font-size="15">CORS + pipeline</text>
+  </g>
+</svg>

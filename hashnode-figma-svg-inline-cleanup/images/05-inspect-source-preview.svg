@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="wf-title wf-desc">
+  <title id="wf-title">Inspect Figma SVG with source and preview side by side</title>
+  <desc id="wf-desc">Paste markup, watch the live preview, edit clipPath and transforms in the source, then export once the contract is honest.</desc>
+  <defs>
+    <linearGradient id="wf-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #94a3b8; letter-spacing: 0.12em; }
+      .title { font: 700 48px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .h { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 28px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #e2e8f0; }
+      .mono { font: 700 24px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #7dd3fc; }
+      .step { font: 700 22px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #0f172a; }
+    </style>
+  </defs>
+  <rect width="1600" height="920" fill="url(#wf-bg)"/>
+  <text class="kicker" x="64" y="68">WORKFLOW</text>
+  <text class="title" x="64" y="128">Source and preview in one pass</text>
+
+  <rect x="64" y="200" width="480" height="620" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <rect x="88" y="228" width="72" height="40" rx="10" fill="#38bdf8"/>
+  <text class="step" x="114" y="256">1</text>
+  <text class="h" x="176" y="258">Paste</text>
+  <text class="mono" x="88" y="330">&lt;svg viewBox=...&gt;</text>
+  <text class="mono" x="88" y="372">&lt;g clip-path=...&gt;</text>
+  <text class="mono" x="88" y="414">&lt;path d="..."/&gt;</text>
+  <text class="p" x="88" y="500">Do not start in CSS.</text>
+  <text class="p" x="88" y="548">Open the file as XML.</text>
+  <text class="p" x="88" y="640">Search clipPath,</text>
+  <text class="p" x="88" y="688">translate, image, title.</text>
+
+  <rect x="568" y="200" width="480" height="620" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <rect x="592" y="228" width="72" height="40" rx="10" fill="#a3e635"/>
+  <text class="step" x="618" y="256">2</text>
+  <text class="h" x="680" y="258">Preview</text>
+  <rect x="616" y="320" width="384" height="280" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <path d="M760 400 L840 460 L760 520" fill="none" stroke="#7dd3fc" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="p" x="592" y="660">Empty? Shifted? Soft?</text>
+  <text class="p" x="592" y="708">The preview names the bug.</text>
+  <text class="p" x="592" y="756">The source names the node.</text>
+
+  <rect x="1072" y="200" width="464" height="620" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <rect x="1096" y="228" width="72" height="40" rx="10" fill="#fbbf24"/>
+  <text class="step" x="1122" y="256">3</text>
+  <text class="h" x="1184" y="258">Fix once</text>
+  <text class="p" x="1096" y="340">Drop unused clip.</text>
+  <text class="p" x="1096" y="392">Flatten translate.</text>
+  <text class="p" x="1096" y="444">Tighten viewBox.</text>
+  <text class="p" x="1096" y="496">Strip Layer_1.</text>
+  <text class="p" x="1096" y="580">Then size and embed.</text>
+  <text class="p" x="1096" y="640">Not before.</text>
+  <text class="p" x="1096" y="740">Honest file, then pipeline.</text>
+</svg>

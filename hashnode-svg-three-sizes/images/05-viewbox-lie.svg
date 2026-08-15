@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960" role="img" aria-labelledby="title desc">
+  <title id="title">Lying viewBox clips path coordinates</title>
+  <desc id="desc">False 24x24 viewBox clips art drawn in 0 to 100 space; honest viewBox shows the full glyph.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <clipPath id="vb24">
+      <rect x="170" y="380" width="300" height="300"/>
+    </clipPath>
+        <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #c4b5fd; letter-spacing: 0.12em; }
+      .title { font: 700 50px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .lead { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f1f5f9; }
+      .h { font: 700 40px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .mono { font: 700 32px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #ddd6fe; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="960" fill="url(#bg)"/>
+  <text class="kicker" x="64" y="68">COMMON FAILURE</text>
+  <text class="title" x="64" y="136">When viewBox lies, CSS cannot save you</text>
+  <text class="lead" x="64" y="196">Art in 0..100 + viewBox 0 0 24 24 = clipped glyph.</text>
+
+  <rect x="64" y="260" width="700" height="580" rx="28" fill="#111827" stroke="#b91c1c" stroke-width="4"/>
+  <text class="h" x="120" y="340">Lying viewBox</text>
+  <text class="mono" x="120" y="400">viewBox="0 0 24 24"</text>
+  <text class="mono" x="120" y="450">cx="50" cy="50"</text>
+
+  <rect x="170" y="490" width="480" height="180" rx="14" fill="#1e1b4b" stroke="#818cf8" stroke-width="3" stroke-dasharray="10 8"/>
+  <text class="p" x="200" y="550">Authoring space 0..100</text>
+  <g clip-path="url(#vb24)">
+    <circle cx="380" cy="530" r="100" fill="#f472b6"/>
+  </g>
+  <rect x="170" y="380" width="300" height="300" fill="none" stroke="#f87171" stroke-width="6"/>
+  <text class="p" x="120" y="780">Visible: clipped disc only</text>
+
+  <rect x="836" y="260" width="700" height="580" rx="28" fill="#111827" stroke="#15803d" stroke-width="4"/>
+  <text class="h" x="892" y="340">Honest viewBox</text>
+  <text class="mono" x="892" y="400">viewBox="0 0 100 100"</text>
+  <rect x="980" y="470" width="400" height="220" rx="14" fill="#052e16" stroke="#22c55e" stroke-width="5"/>
+  <circle cx="1180" cy="580" r="85" fill="#4ade80"/>
+  <text class="p" x="892" y="780">Full glyph. CSS sets size.</text>
+</svg>

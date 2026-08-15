@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="sym-title sym-desc">
+  <title id="sym-title">Four Figma SVG export symptoms and their usual causes</title>
+  <desc id="sym-desc">Empty preview, shifted glyph, clipped strokes, and a tiny icon in a huge frame map to clipPath, translate, overflow, and artboard viewBox.</desc>
+  <defs>
+    <linearGradient id="sym-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #94a3b8; letter-spacing: 0.12em; }
+      .title { font: 700 50px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .lead { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #e2e8f0; }
+      .h { font: 700 32px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 26px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #cbd5e1; }
+      .mono { font: 700 24px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #7dd3fc; }
+    </style>
+  </defs>
+  <rect width="1600" height="980" fill="url(#sym-bg)"/>
+  <text class="kicker" x="64" y="68">SYMPTOM MAP</text>
+  <text class="title" x="64" y="128">Four looks. Four leftover nodes.</text>
+  <text class="lead" x="64" y="184">Match the preview to the markup before you touch CSS.</text>
+
+  <rect x="64" y="230" width="360" height="660" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <text class="h" x="92" y="290">Empty</text>
+  <rect x="108" y="320" width="272" height="200" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="p" x="92" y="570">clipPath / mask</text>
+  <text class="p" x="92" y="620">from a Frame.</text>
+  <text class="mono" x="92" y="700">url(#clip0_12)</text>
+  <text class="p" x="92" y="780">Path is outside</text>
+  <text class="p" x="92" y="824">the clip rect.</text>
+
+  <rect x="448" y="230" width="360" height="660" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <text class="h" x="476" y="290">Shifted</text>
+  <rect x="492" y="320" width="272" height="200" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <path d="M620 400h80v80h-80z" fill="none" stroke="#38bdf8" stroke-width="6"/>
+  <path d="M700 460h70v70h-70z" fill="#38bdf8" opacity="0.85"/>
+  <text class="p" x="476" y="570">Nested translate</text>
+  <text class="p" x="476" y="620">or matrix().</text>
+  <text class="mono" x="476" y="700">translate(712 438)</text>
+  <text class="p" x="476" y="780">Ink parked in</text>
+  <text class="p" x="476" y="824">artboard space.</text>
+
+  <rect x="832" y="230" width="360" height="660" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <text class="h" x="860" y="290">Clipped hairline</text>
+  <rect x="876" y="320" width="272" height="200" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <rect x="900" y="360" width="224" height="120" fill="none" stroke="#fbbf24" stroke-width="10"/>
+  <text class="p" x="860" y="570">overflow: hidden</text>
+  <text class="p" x="860" y="620">on the root.</text>
+  <text class="mono" x="860" y="700">stroke on the edge</text>
+  <text class="p" x="860" y="780">Not a thin</text>
+  <text class="p" x="860" y="824">stroke-width bug.</text>
+
+  <rect x="1216" y="230" width="320" height="660" rx="24" fill="#111827" stroke="#334155" stroke-width="3"/>
+  <text class="h" x="1240" y="290">Tiny in a field</text>
+  <rect x="1252" y="320" width="248" height="200" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <rect x="1270" y="344" width="212" height="152" fill="none" stroke="#a3e635" stroke-width="3" stroke-dasharray="8 6"/>
+  <rect x="1350" y="400" width="36" height="36" fill="#a3e635"/>
+  <text class="p" x="1240" y="570">Selection inside</text>
+  <text class="p" x="1240" y="620">a huge Frame.</text>
+  <text class="mono" x="1240" y="700">0 0 1440 900</text>
+  <text class="p" x="1240" y="780">Icon is a speck</text>
+  <text class="p" x="1240" y="824">in the viewBox.</text>
+</svg>

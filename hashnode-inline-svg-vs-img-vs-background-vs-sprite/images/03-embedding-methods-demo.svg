@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Four ways to embed SVG</title>
+  <desc id="desc">A comparison of inline SVG, img, CSS background, and SVG sprites</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1419"/>
+      <stop offset="100%" stop-color="#162231"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#202d3d"/>
+      <stop offset="100%" stop-color="#192431"/>
+    </linearGradient>
+    <style>
+      .ui { font-family: Inter, "Segoe UI", Arial, sans-serif; }
+      .title { fill: #eef4fb; font-size: 38px; font-weight: 750; }
+      .subtitle { fill: #9fb0c4; font-size: 20px; }
+      .card-title { fill: #eef4fb; font-size: 24px; font-weight: 700; }
+      .meta { fill: #9fb0c4; font-size: 17px; }
+      .stage-text { fill: #bdcada; font-size: 17px; }
+      .chip { font-size: 14px; font-weight: 700; }
+      .summary { fill: #cbd8e8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 19px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <circle cx="1125" cy="35" r="170" fill="#3d9cf0" fill-opacity=".08"/>
+  <circle cx="40" cy="880" r="145" fill="#7fd99a" fill-opacity=".06"/>
+
+  <g class="ui">
+    <text x="48" y="62" fill="#7f91a8" font-size="17" font-weight="700" letter-spacing="2.2">SVG EMBEDDING</text>
+    <text x="48" y="112" class="title">Pick by purpose, not habit</text>
+    <text x="48" y="148" class="subtitle">Inline / component  ·  &lt;img&gt;  ·  CSS background  ·  sprite</text>
+
+    <!-- Inline / component -->
+    <rect x="48" y="188" width="536" height="242" rx="16" fill="url(#card)" stroke="#33465c"/>
+    <text x="72" y="226" class="card-title">Inline / component</text>
+    <text x="72" y="255" class="meta">Interactive UI · theme · hover</text>
+    <rect x="72" y="278" width="488" height="86" rx="10" fill="#111923" stroke="#304258"/>
+    <rect x="94" y="300" width="128" height="44" rx="9" fill="#293a4f" stroke="#43617e"/>
+    <path d="M112 312h10l2 4h7v3h-26v-3h7l2-4zm2 11h4v14h-4v-14zm7 0h4v14h-4v-14zm-14 0h4v14h-4v-14z" fill="#eef4fb"/>
+    <text x="144" y="328" fill="#eef4fb" font-size="17" font-weight="700">Delete</text>
+    <text x="244" y="327" class="stage-text">currentColor follows the button</text>
+    <rect x="72" y="382" width="92" height="28" rx="14" fill="#203d32"/>
+    <text x="118" y="401" text-anchor="middle" fill="#7fd99a" class="chip">Theming</text>
+    <rect x="174" y="382" width="132" height="28" rx="14" fill="#203d32"/>
+    <text x="240" y="401" text-anchor="middle" fill="#7fd99a" class="chip">A11y on control</text>
+    <rect x="316" y="382" width="176" height="28" rx="14" fill="#403722"/>
+    <text x="404" y="401" text-anchor="middle" fill="#e6c07b" class="chip">Watch bundle size</text>
+
+    <!-- img -->
+    <rect x="616" y="188" width="536" height="242" rx="16" fill="url(#card)" stroke="#33465c"/>
+    <text x="640" y="226" class="card-title">&lt;img src="*.svg"&gt;</text>
+    <text x="640" y="255" class="meta">Logo · figure · cacheable file</text>
+    <rect x="640" y="278" width="488" height="86" rx="10" fill="#111923" stroke="#304258"/>
+    <rect x="664" y="300" width="142" height="44" rx="8" fill="#3d9cf0"/>
+    <text x="735" y="329" text-anchor="middle" fill="#0f1419" font-size="18" font-weight="800">Acme</text>
+    <text x="830" y="327" class="stage-text">alt = brand name</text>
+    <rect x="640" y="382" width="108" height="28" rx="14" fill="#203d32"/>
+    <text x="694" y="401" text-anchor="middle" fill="#7fd99a" class="chip">CDN cache</text>
+    <rect x="758" y="382" width="128" height="28" rx="14" fill="#203d32"/>
+    <text x="822" y="401" text-anchor="middle" fill="#7fd99a" class="chip">Safer isolation</text>
+    <rect x="896" y="382" width="168" height="28" rx="14" fill="#403722"/>
+    <text x="980" y="401" text-anchor="middle" fill="#e6c07b" class="chip">No currentColor</text>
+
+    <!-- CSS background -->
+    <rect x="48" y="454" width="536" height="242" rx="16" fill="url(#card)" stroke="#33465c"/>
+    <text x="72" y="492" class="card-title">CSS background</text>
+    <text x="72" y="521" class="meta">Decoration only · not a control</text>
+    <rect x="72" y="544" width="488" height="86" rx="10" fill="#111923" stroke="#304258"/>
+    <g fill="none" stroke="#3d9cf0" stroke-opacity=".45" stroke-width="2">
+      <circle cx="108" cy="587" r="22"/><circle cx="164" cy="587" r="22"/><circle cx="220" cy="587" r="22"/>
+      <circle cx="276" cy="587" r="22"/><circle cx="332" cy="587" r="22"/><circle cx="388" cy="587" r="22"/>
+      <circle cx="444" cy="587" r="22"/><circle cx="500" cy="587" r="22"/>
+    </g>
+    <rect x="72" y="648" width="112" height="28" rx="14" fill="#203d32"/>
+    <text x="128" y="667" text-anchor="middle" fill="#7fd99a" class="chip">Clean HTML</text>
+    <rect x="194" y="648" width="128" height="28" rx="14" fill="#403722"/>
+    <text x="258" y="667" text-anchor="middle" fill="#e6c07b" class="chip">Invisible to AT</text>
+    <rect x="332" y="648" width="126" height="28" rx="14" fill="#403722"/>
+    <text x="395" y="667" text-anchor="middle" fill="#e6c07b" class="chip">No SEO value</text>
+
+    <!-- Sprite -->
+    <rect x="616" y="454" width="536" height="242" rx="16" fill="url(#card)" stroke="#33465c"/>
+    <text x="640" y="492" class="card-title">SVG sprite + &lt;use&gt;</text>
+    <text x="640" y="521" class="meta">Shared icon system</text>
+    <rect x="640" y="544" width="488" height="86" rx="10" fill="#111923" stroke="#304258"/>
+    <path d="M670 585l10 10 20-24" fill="none" stroke="#7fd99a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M726 568h12l2 4h8v4h-32v-4h8l2-4zm2 13h4v18h-4v-18zm8 0h4v18h-4v-18zm-16 0h4v18h-4v-18z" fill="#3d9cf0"/>
+    <text x="774" y="591" class="stage-text">one file · currentColor in symbols</text>
+    <rect x="640" y="648" width="110" height="28" rx="14" fill="#203d32"/>
+    <text x="695" y="667" text-anchor="middle" fill="#7fd99a" class="chip">One request</text>
+    <rect x="760" y="648" width="78" height="28" rx="14" fill="#203d32"/>
+    <text x="799" y="667" text-anchor="middle" fill="#7fd99a" class="chip">Reuse</text>
+    <rect x="848" y="648" width="132" height="28" rx="14" fill="#403722"/>
+    <text x="914" y="667" text-anchor="middle" fill="#e6c07b" class="chip">CORS / build</text>
+
+    <!-- Summary -->
+    <rect x="48" y="714" width="1104" height="168" rx="16" fill="#1c2836" stroke="#33465c"/>
+    <text x="74" y="746" fill="#e6c07b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">Purpose?</text>
+    <text x="90" y="778" class="summary">UI action + theme</text>
+    <text x="330" y="778" fill="#7fd99a" class="summary">&#8594; inline / component / sprite</text>
+    <text x="90" y="806" class="summary">Logo / large artwork</text>
+    <text x="330" y="806" fill="#7fd99a" class="summary">&#8594; &lt;img&gt;</text>
+    <text x="90" y="834" class="summary">Decoration only</text>
+    <text x="330" y="834" fill="#7fd99a" class="summary">&#8594; background / mask</text>
+    <text x="90" y="862" class="summary">Untrusted upload</text>
+    <text x="330" y="862" fill="#7fd99a" class="summary">&#8594; sanitize + &lt;img&gt; preview</text>
+  </g>
+</svg>

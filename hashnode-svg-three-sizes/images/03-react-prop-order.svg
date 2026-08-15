@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960" role="img" aria-labelledby="title desc">
+  <title id="title">React SVG icon prop order decides who wins size</title>
+  <desc id="desc">Spread props early and the call site loses size; spread last and the caller wins.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+        <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #fca5a5; letter-spacing: 0.12em; }
+      .title { font: 700 54px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f9fafb; }
+      .lead { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f3f4f6; }
+      .h { font: 700 40px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f9fafb; }
+      .p { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f9fafb; }
+      .code { font: 700 34px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #f9fafb; }
+      .bad { fill: #f87171; }
+      .good { fill: #4ade80; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="960" fill="url(#bg)"/>
+  <text class="kicker" x="64" y="68">REACT / JSX</text>
+  <text class="title" x="64" y="136">Prop order is a size bug factory</text>
+  <text class="lead" x="64" y="196">Call site wants 16. File defaults to 24.</text>
+
+  <rect x="64" y="250" width="700" height="600" rx="28" fill="#0f172a" stroke="#b91c1c" stroke-width="4"/>
+  <rect x="64" y="250" width="16" height="600" fill="#ef4444"/>
+  <text class="h" x="120" y="330">Silent lose</text>
+  <text class="code" x="120" y="420">&lt;svg</text>
+  <text class="code" x="120" y="475">{...props}</text>
+  <text class="code bad" x="120" y="530">width={24} height={24}</text>
+  <text class="code" x="120" y="585">viewBox="0 0 24 24"</text>
+  <text class="code" x="120" y="640">/&gt;</text>
+  <text class="p" x="120" y="730">&lt;Icon width={16} /&gt;</text>
+  <text class="p bad" x="120" y="790">still renders at 24</text>
+
+  <rect x="836" y="250" width="700" height="600" rx="28" fill="#0f172a" stroke="#15803d" stroke-width="4"/>
+  <rect x="836" y="250" width="16" height="600" fill="#22c55e"/>
+  <text class="h" x="892" y="330">Caller wins</text>
+  <text class="code" x="892" y="420">&lt;svg</text>
+  <text class="code" x="892" y="475">viewBox="0 0 24 24"</text>
+  <text class="code" x="892" y="530">width={size} height={size}</text>
+  <text class="code good" x="892" y="585">{...props}</text>
+  <text class="code" x="892" y="640">/&gt;</text>
+  <text class="p" x="892" y="730">&lt;Icon width={16} /&gt;</text>
+  <text class="p good" x="892" y="790">renders at 16</text>
+</svg>

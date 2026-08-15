@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="title desc">
+  <title id="title">SVG authoring space maps to viewport pixels</title>
+  <desc id="desc">Authoring coordinates project onto a layout box and become pixels only when rasterized.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="14" refY="6" orient="auto">
+      <path d="M0,0 L14,6 L0,12 Z" fill="#93c5fd"/>
+    </marker>
+        <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #93c5fd; letter-spacing: 0.12em; }
+      .title { font: 700 54px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .h { font: 700 40px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 34px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .mono { font: 700 30px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #bfdbfe; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="920" fill="url(#bg)"/>
+  <text class="kicker" x="64" y="68">MENTAL MODEL</text>
+  <text class="title" x="64" y="136">Coordinates -&gt; projection -&gt; pixels</text>
+
+  <rect x="64" y="200" width="420" height="580" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="h" x="96" y="280">1. Coordinates</text>
+  <rect x="112" y="320" width="324" height="240" rx="18" fill="#1e293b" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10 8"/>
+  <text class="mono" x="140" y="390">viewBox</text>
+  <text class="mono" x="140" y="435">0 0 24 24</text>
+  <path d="M170 470h200v70H170z" fill="none" stroke="#7dd3fc" stroke-width="6"/>
+  <text class="p" x="96" y="640">Numbers in d, cx, x</text>
+  <text class="p" x="96" y="690">live in viewBox units.</text>
+
+  <line x1="520" y1="490" x2="600" y2="490" stroke="#93c5fd" stroke-width="8" marker-end="url(#arrow)"/>
+
+  <rect x="620" y="200" width="420" height="580" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="h" x="652" y="280">2. Projection</text>
+  <rect x="668" y="340" width="324" height="200" rx="18" fill="#172554" stroke="#60a5fa" stroke-width="4"/>
+  <text class="mono" x="700" y="410">CSS / layout box</text>
+  <rect x="720" y="440" width="220" height="70" fill="none" stroke="#93c5fd" stroke-width="6"/>
+  <text class="p" x="652" y="640">Renderer maps the</text>
+  <text class="p" x="652" y="690">box onto the screen.</text>
+
+  <line x1="1070" y1="490" x2="1150" y2="490" stroke="#93c5fd" stroke-width="8" marker-end="url(#arrow)"/>
+
+  <rect x="1170" y="200" width="366" height="580" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="h" x="1202" y="280">3. Pixels</text>
+  <g transform="translate(1230,340)">
+    <rect width="34" height="34" fill="#38bdf8"/>
+    <rect x="40" width="34" height="34" fill="#38bdf8" opacity="0.75"/>
+    <rect x="80" width="34" height="34" fill="#38bdf8" opacity="0.55"/>
+    <rect y="40" width="34" height="34" fill="#38bdf8" opacity="0.75"/>
+    <rect x="40" y="40" width="34" height="34" fill="#38bdf8"/>
+    <rect x="80" y="40" width="34" height="34" fill="#38bdf8" opacity="0.7"/>
+    <rect y="80" width="34" height="34" fill="#38bdf8" opacity="0.55"/>
+    <rect x="40" y="80" width="34" height="34" fill="#38bdf8" opacity="0.75"/>
+    <rect x="80" y="80" width="34" height="34" fill="#38bdf8" opacity="0.9"/>
+    <rect x="140" y="10" width="130" height="130" fill="none" stroke="#fbbf24" stroke-width="5"/>
+    <text class="mono" x="170" y="90">PNG</text>
+  </g>
+  <text class="p" x="1202" y="640">Only when you ask</text>
+  <text class="p" x="1202" y="690">for a bitmap.</text>
+</svg>

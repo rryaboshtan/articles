@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="cl-title cl-desc">
+  <title id="cl-title">Figma Frame clipPath hiding SVG strokes and paths</title>
+  <desc id="cl-desc">A 24 by 24 clip rect from a Frame cuts off strokes that sit on the edge; removing the unused clipPath reveals the full glyph.</desc>
+  <defs>
+    <linearGradient id="cl-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+    <clipPath id="cl-frameclip">
+      <rect x="200" y="360" width="240" height="240"/>
+    </clipPath>
+    <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #93c5fd; letter-spacing: 0.12em; }
+      .title { font: 700 48px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .h { font: 700 36px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 28px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #e2e8f0; }
+      .mono { font: 700 26px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #bfdbfe; }
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#cl-bg)"/>
+  <text class="kicker" x="64" y="68">FRAMES</text>
+  <text class="title" x="64" y="132">The clipPath is the Frame, not the icon</text>
+
+  <rect x="64" y="200" width="720" height="620" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="h" x="104" y="270">With Frame clip</text>
+  <text class="mono" x="104" y="328">clip-path="url(#clip0_12_8)"</text>
+  <g clip-path="url(#cl-frameclip)">
+    <rect x="188" y="348" width="264" height="264" fill="none" stroke="#fbbf24" stroke-width="18"/>
+  </g>
+  <rect x="200" y="360" width="240" height="240" fill="none" stroke="#f87171" stroke-width="5"/>
+  <text class="p" x="104" y="680">Hairline missing on all four sides.</text>
+  <text class="p" x="104" y="740">Looks like a bad stroke-width.</text>
+
+  <rect x="816" y="200" width="720" height="620" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
+  <text class="h" x="856" y="270">Clip removed</text>
+  <text class="mono" x="856" y="328">no clipPath  overflow visible</text>
+  <rect x="980" y="360" width="280" height="280" fill="none" stroke="#fbbf24" stroke-width="18"/>
+  <text class="p" x="856" y="700">Full stroke. Same path data.</text>
+  <text class="p" x="856" y="760">Optical padding, or keep overflow.</text>
+</svg>

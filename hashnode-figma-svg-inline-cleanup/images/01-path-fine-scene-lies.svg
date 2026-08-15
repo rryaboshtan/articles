@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="sc-title sc-desc">
+  <title id="sc-title">Figma SVG path is fine; the exported scene graph is not</title>
+  <desc id="sc-desc">The path data exists, but clipPath, nested translate, and a lying viewBox make the preview look empty or shifted.</desc>
+  <defs>
+    <linearGradient id="sc-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="sc-c1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="sc-c2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <style>
+      .kicker { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #94a3b8; letter-spacing: 0.12em; }
+      .title { font: 700 52px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .lead { font: 700 32px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f1f5f9; }
+      .h { font: 700 40px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #f8fafc; }
+      .p { font: 700 30px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #e2e8f0; }
+      .mono { font: 700 28px "Liberation Mono", "DejaVu Sans Mono", monospace; fill: #f8fafc; }
+      .badge { font: 700 24px "Liberation Sans", "DejaVu Sans", sans-serif; fill: #0f172a; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#sc-bg)"/>
+  <circle cx="1460" cy="80" r="220" fill="#38bdf8" opacity="0.07"/>
+  <circle cx="120" cy="900" r="200" fill="#f87171" opacity="0.06"/>
+
+  <text class="kicker" x="64" y="68">FIGMA EXPORT</text>
+  <text class="title" x="64" y="132">The path is fine. The scene is not.</text>
+  <text class="lead" x="64" y="188">Empty, shifted, or clipped previews usually mean leftover frame machinery.</text>
+
+  <rect x="64" y="240" width="720" height="620" rx="28" fill="#111827" stroke="#64748b" stroke-width="3"/>
+  <rect x="64" y="240" width="720" height="16" rx="8" fill="url(#sc-c1)"/>
+  <text class="h" x="104" y="320">What you look for</text>
+  <text class="mono" x="104" y="390">&lt;path d="M8 4l8 8-8 8"/&gt;</text>
+  <rect x="200" y="440" width="280" height="220" rx="18" fill="#0f172a" stroke="#38bdf8" stroke-width="4"/>
+  <path d="M260 490 L400 550 L260 610" fill="none" stroke="#7dd3fc" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="p" x="104" y="720">Ink exists. Coordinates are legal.</text>
+  <rect x="104" y="760" width="220" height="52" rx="14" fill="#38bdf8"/>
+  <text class="badge" x="148" y="795">PATH OK</text>
+
+  <rect x="816" y="240" width="720" height="620" rx="28" fill="#111827" stroke="#64748b" stroke-width="3"/>
+  <rect x="816" y="240" width="720" height="16" rx="8" fill="url(#sc-c2)"/>
+  <text class="h" x="856" y="320">What Figma also shipped</text>
+  <text class="mono" x="856" y="390">clipPath + translate + viewBox</text>
+  <text class="p" x="856" y="470">Frame clip hides the glyph.</text>
+  <text class="p" x="856" y="530">Nested translate parks it off-canvas.</text>
+  <text class="p" x="856" y="590">Root box is a whole artboard.</text>
+  <text class="p" x="856" y="670">CSS cannot invent the missing crop.</text>
+  <rect x="856" y="760" width="280" height="52" rx="14" fill="#f87171"/>
+  <text class="badge" x="888" y="795">SCENE GRAPH</text>
+</svg>
