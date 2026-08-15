@@ -1,23 +1,7 @@
 ---
 title: "Inline SVG vs img vs CSS Background vs SVG Sprite: когда что выбирать"
-seo_title: "Inline SVG vs img vs Background vs Sprite — выбор по задаче"
 slug: inline-svg-vs-img-vs-background-vs-sprite
 description: "Как выбрать способ встраивания SVG: inline и компоненты для интерфейса с поддержкой тем, <img> для логотипов и иллюстраций, CSS-фон для декора, спрайт для общих иконок. Разбираем доступность, кеширование, XSS и очистку экспорта из Figma."
-locale: ru
-canonical: https://getsvgeditor.com/blog/ru/inline-svg-vs-img-vs-background-vs-sprite
-keywords:
-  - inline SVG vs img
-  - SVG sprite vs inline
-  - CSS background SVG
-  - способы встраивания SVG
-  - SVG currentColor темы
-  - доступные SVG иконки
-  - SVG XSS sanitize
-  - чистка SVG из Figma
-  - React SVG components vs sprite
-  - SVG sprite CORS
-og_image: ./images/01-embed-by-job.png
-published: true
 ---
 
 # Inline SVG vs img vs CSS Background vs SVG Sprite: когда что выбирать

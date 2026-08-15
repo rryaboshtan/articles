@@ -1,19 +1,7 @@
 ---
 title: "Экспорт SVG из Figma пустой, съехал или обрезан: смотри сцену, не CSS"
-seo_title: "Пустой SVG из Figma: clipPath, translate, viewBox фрейма"
 slug: figma-svg-empty-shifted-clipped
 description: "Геометрия path из Figma почти всегда в порядке. Пустое, съехавшее или обрезанное превью почти всегда из‑за Clip content, вложенного translate и viewBox артборда. Смотри исходник рядом с превью."
-locale: ru
-canonical: https://getsvgeditor.com/blog/ru/figma-svg-empty-shifted-clipped
-keywords:
-  - пустой SVG Figma
-  - Figma SVG clipPath
-  - Figma Clip content
-  - SVG transform translate
-  - viewBox артборд
-  - getBBox SVG
-og_image: ./images/01-path-fine-scene-lies.svg
-published: true
 ---
 
 # Экспорт SVG из Figma пустой, съехал или обрезан: смотри сцену, а не CSS

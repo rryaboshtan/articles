@@ -1,19 +1,7 @@
 ---
 title: "Figma SVG Looks Empty, Shifted, or Clipped: Inspect the Scene"
-seo_title: "Figma SVG Empty or Clipped? Fix clipPath and viewBox"
 slug: figma-svg-empty-shifted-clipped
 description: "Figma SVG path data is usually fine. Empty, shifted, or clipped icons come from Clip content, nested translate, and an artboard viewBox. Inspect source next to preview."
-locale: en
-canonical: https://getsvgeditor.com/blog/figma-svg-empty-shifted-clipped
-keywords:
-  - Figma SVG export empty
-  - Figma SVG clipPath
-  - Figma Clip content SVG
-  - SVG transform translate Figma
-  - SVG viewBox artboard
-  - getBBox SVG
-og_image: ./images/01-path-fine-scene-lies.svg
-published: true
 ---
 
 # Figma SVG Looks Empty, Shifted, or Clipped: Inspect the Scene

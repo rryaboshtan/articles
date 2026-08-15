@@ -1,21 +1,7 @@
 ---
 title: "SVG viewBox vs width/height vs CSS: The Three Sizes That Break Icons"
-seo_title: "SVG viewBox vs width/height vs CSS: Fix Icon Size Bugs"
 slug: svg-viewbox-vs-width-height-css
 description: "Why Figma SVGs look the wrong size: viewBox is the contract, width/height are defaults, CSS/props set size. Retina PNG math + a 60s audit."
-locale: en
-canonical: https://getsvgeditor.com/blog/svg-viewbox-vs-width-height-css
-keywords:
-  - SVG viewBox
-  - SVG width height
-  - SVG CSS size
-  - React SVG icon size
-  - Figma SVG export size
-  - retina PNG from SVG
-  - SVG icon sizing
-  - preserveAspectRatio
-og_image: ./images/01-three-sizes.svg
-published: true
 ---
 
 # SVG viewBox vs width/height vs CSS: The Three Sizes That Break Icons

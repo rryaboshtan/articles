@@ -1,19 +1,7 @@
 ---
 title: "Figma SVG Looks Fine as a File and Breaks When Inlined"
-seo_title: "Figma SVG Inline Bugs: IDs, SVGO, Strokes"
 slug: figma-svg-inline-ids-svgo
 description: "Figma SVG that previews fine then dies in React: colliding clip0_ ids, .st0 styles, inside/outside strokes, and SVGO presets that remove viewBox or fill=none."
-locale: en
-canonical: https://getsvgeditor.com/blog/figma-svg-inline-ids-svgo
-keywords:
-  - Figma SVG inline
-  - SVG id collision clipPath
-  - SVGO removeViewBox
-  - Figma SVG currentColor
-  - Figma outline stroke SVG
-  - SVG fill-rule evenodd
-og_image: ./images/05-inspect-source-preview.svg
-published: true
 ---
 
 # Figma SVG Looks Fine as a File and Breaks When Inlined

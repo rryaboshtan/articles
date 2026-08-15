@@ -2,19 +2,6 @@
 title: "SVG viewBox vs width/height vs CSS: три размера, из‑за которых «ломаются» иконки"
 slug: svg-viewbox-vs-width-height-css
 description: "Почему иконка из Figma в браузере или React оказывается не того размера: viewBox — контракт, width/height — запасной вариант, CSS и props — реальный размер на экране. Плюс расчёт retina PNG и проверка за минуту."
-locale: ru
-canonical: https://getsvgeditor.com/blog/ru/svg-viewbox-vs-width-height-css
-keywords:
-  - SVG viewBox
-  - SVG width height
-  - размер SVG CSS
-  - размер иконки React SVG
-  - экспорт SVG из Figma
-  - retina PNG из SVG
-  - размер SVG иконок
-  - preserveAspectRatio
-og_image: ./images/01-three-sizes.svg
-published: true
 ---
 
 # SVG viewBox vs width/height vs CSS: три размера, из‑за которых «ломаются» иконки

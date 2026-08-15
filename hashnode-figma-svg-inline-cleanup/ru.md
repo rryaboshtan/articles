@@ -1,19 +1,7 @@
 ---
 title: "SVG из Figma в файле ок, в inline ломается"
-seo_title: "Inline SVG из Figma: id, SVGO, обводки"
 slug: figma-svg-inline-ids-svgo
 description: "Экспорт Figma в превью живой, в React пустой: столкновения clip0_, классы .st0, inside/outside stroke и пресеты SVGO, которые снимают viewBox или fill=none."
-locale: ru
-canonical: https://getsvgeditor.com/blog/ru/figma-svg-inline-ids-svgo
-keywords:
-  - Figma SVG inline
-  - столкновение id SVG clipPath
-  - SVGO removeViewBox
-  - Figma SVG currentColor
-  - outline stroke Figma
-  - SVG fill-rule evenodd
-og_image: ./images/05-inspect-source-preview.svg
-published: true
 ---
 
 # SVG из Figma в файле ок, в inline ломается
