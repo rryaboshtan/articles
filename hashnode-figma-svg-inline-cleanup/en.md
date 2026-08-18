@@ -6,9 +6,9 @@ description: "Figma SVG that previews fine then dies in React: colliding clip0_ 
 
 # Figma SVG Looks Fine as a File and Breaks When Inlined
 
-You cleaned the Frame clip. The chevron shows in a tab. You drop two icons into React and one vanishes, a gradient leaks, or SVGO “optimizes” a line icon into a black fill. The ticket says the framework is broken. The documents were never written to share a page.
+You cleaned the Frame clip. The chevron shows in a browser tab. You drop two icons into React and one vanishes, a gradient leaks, or SVGO “optimizes” a line icon into a black fill. The ticket says the framework is broken. The documents were never written to share a page.
 
-An SVG opened as a file, or loaded with `<img src>`, is a **separate document**. Its `id="clip0_12_8"` lives there. Inlined in HTML or JSX, every icon shares the page’s ID namespace and CSS. Figma’s exporter does not know you will paste forty of these next to each other. SVGO does not know that `clip0_12_8` was a Frame. The canvas stroke model is richer than SVG’s, so “it looks right in Figma” still ships an approximation.
+An SVG opened as a file, or loaded with `<img src>`, is a **separate document**. Its `id="clip0_12_8"` lives there. Inlined in HTML or JSX, every icon shares the page’s ID namespace and CSS. Figma’s exporter does not know you will paste forty of these next to each other. SVGO does not know that `clip0_12_8` was a Frame. The canvas stroke model is richer than SVG’s, so “it looks right in Figma” still ships an approximation. For a quick two-copy collision test, [SVG Editor](https://getsvgeditor.com) lets you inspect the source beside the preview.
 
 **Short version:** if it dies only when inlined, search duplicate ids and `.st0` first, not React. Prefix or strip ids. Delete editor `<title>` and generic stylesheets. Do not run a default SVGO preset on a file you have not looked at. Outline text and decide stroke alignment **in Figma** for the whole set. If the preview is still empty or shifted *as a single file*, that is not this article — go back to [inspecting the scene graph](https://getsvgeditor.com/blog/figma-svg-empty-shifted-clipped).
 

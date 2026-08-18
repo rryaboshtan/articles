@@ -33,8 +33,9 @@
 
   <rect x="816" y="200" width="720" height="620" rx="28" fill="#0f172a" stroke="#64748b" stroke-width="3"/>
   <text class="h" x="856" y="270">Clip removed</text>
-  <text class="mono" x="856" y="328">no clipPath  overflow visible</text>
+  <text class="mono" x="856" y="328">no clipPath — overflow visible</text>
   <rect x="980" y="360" width="280" height="280" fill="none" stroke="#fbbf24" stroke-width="18"/>
   <text class="p" x="856" y="700">Full stroke. Same path data.</text>
   <text class="p" x="856" y="760">Optical padding, or keep overflow.</text>
 </svg>
+

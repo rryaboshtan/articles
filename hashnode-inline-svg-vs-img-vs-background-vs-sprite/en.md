@@ -8,7 +8,7 @@ description: "Choose how to embed SVG based on its purpose: inline or components
 
 Teams almost never argue about SVG as a format. They argue about **how to put it on the page** — and then live with the wrong choice for several release cycles.
 
-One engineer inlines forty icons into the React bundle “for control.” Another loads every glyph through `<img>` and cannot recolor them in dark mode. A third hides a delete control in `background-image`, leaving the screen reader with nothing useful to announce. Then a user uploads a file containing `<script>`, and “just paste the markup” becomes a serious security risk.
+One engineer inlines forty icons into the React bundle “for control.” Another loads every glyph through `<img>` and cannot recolor them in dark mode. A third hides a delete control in `background-image`, leaving the screen reader with nothing useful to announce. Then a user uploads a file containing `<script>`, and “just paste the markup” becomes a serious security risk. If you need to inspect an SVG before choosing how to embed it, [getsvgeditor.com](https://getsvgeditor.com) gives you a quick source-and-preview workflow.
 
 **Short answer:** themed, interactive UI elements → inline SVG, an SVG component, or a sprite; logos and large illustrations → `<img>`; pure decoration → CSS background; untrusted uploads → sanitize them and never inline the raw markup.
 
@@ -16,7 +16,7 @@ The rest of this article is the decision framework behind that sentence — how 
 
 > Pick by the *job* of the graphic, not by the technique you used on the last project.
 
-![Four SVG embedding methods mapped to jobs: UI chrome, logos, decoration, and shared icon systems](./images/01-embed-by-job.png)
+![Four SVG embedding methods mapped to jobs: UI chrome, logos, decoration, and shared icon systems](./images/01-embed-by-job.svg)
 
 ---
 
@@ -36,7 +36,7 @@ Before asking “inline or sprite?”, start with a product question:
 
 If the team debates *technique* without first considering the graphic’s *job*, the same bugs return under new ticket titles. Here are the four approaches side by side:
 
-![Four SVG embedding approaches shown side by side: inline SVG, img, CSS background, and SVG sprite](./images/03-embedding-methods-demo.png)
+![Four SVG embedding approaches shown side by side: inline SVG, img, CSS background, and SVG sprite](./images/03-embedding-methods-demo.svg)
 
 ---
 
@@ -52,7 +52,7 @@ SVG itself is not the problem. **Different embedding methods solve different job
 
 ## SVG embedding decision tree
 
-![SVG embedding decision tree: sanitize untrusted files, use inline SVG or components for interactive UI, img for meaningful content, and CSS backgrounds for decoration](./images/02-svg-decision-tree-en.png)
+![SVG embedding decision tree: sanitize untrusted files, use inline SVG or components for interactive UI, img for meaningful content, and CSS backgrounds for decoration](./images/02-svg-decision-tree-en.svg)
 
 Keep this decision tree handy. Reopen it when the next pull request turns into another debate about personal preference.
 
@@ -374,4 +374,4 @@ Before merging, you should be able to answer these questions: What purpose does 
 
 Applying the wrong embedding method to an unoptimized file allows the underlying problems to persist into production. Check the `viewBox`, leftover layers, scripts, hardcoded fills, and file size **before** debating the embedding method.
 
-For example, you can paste an SVG into [SVG Viewer](https://getsvgeditor.com) and clean it up there.
+For example, you can paste an SVG into [getsvgeditor.com](https://getsvgeditor.com) to inspect and clean it up before embedding.

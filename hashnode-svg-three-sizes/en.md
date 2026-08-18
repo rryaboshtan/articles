@@ -6,9 +6,9 @@ description: "Why Figma SVGs look the wrong size: viewBox is the contract, width
 
 # SVG viewBox vs width/height vs CSS: The Three Sizes That Break Icons
 
-You export a 24×24 icon from Figma. In the browser it shows up tiny, huge, or sharp — but trapped inside a soft PNG. The file is almost never “broken.” It’s carrying **three different sizes at once**, and your tools listened to the wrong one.
+You export a 24×24 icon from Figma. In the browser it renders tiny or huge, or it looks sharp as SVG but turns soft after PNG export. The file is almost never “broken.” It’s carrying **three different sizes at once**, and your tools listened to the wrong one.
 
-Most advice boils down to “don’t touch the `viewBox`.” That’s necessary, but not enough. If you run a design system, wrap icons in React, or ship PNGs for email, you need to know which size is the **contract** — and which two are just defaults.
+Most advice boils down to “don’t touch the `viewBox`.” That’s necessary, but not enough. If you run a design system, wrap icons in React, or ship PNGs for email, you need to know which size is the **contract** — and which two are just defaults. [getsvgeditor.com](https://getsvgeditor.com) is useful here: you can compare the markup with a live preview before deciding which size to change.
 
 ![Three SVG size signals: viewBox is the contract, width/height are defaults, CSS/props set the on-screen size](./images/01-three-sizes.svg)
 
@@ -224,7 +224,7 @@ Leave `viewBox` alone. Expose one size API. Don’t also hard-code a second size
 
 **CSS trap:** if your stylesheet has `.icon { width: 24px !important; }`, props will look broken even with perfect JSX order. On-screen size needs one owner.
 
-React Native follows the same idea with numeric props (`width={24}` on `<Svg>`). Same contract: `viewBox` in the file, size at the call site. If you need JSX quickly, paste into the [SVG → React converter](https://getsvgeditor.com/svg-to-react) — the React Native tab sits next to it, so you can check numeric props against the preview.
+React Native follows the same idea with numeric props (`width={24}` on `<Svg>`). Same contract: `viewBox` in the file, size at the call site. If you need JSX quickly, paste into the [getsvgeditor.com SVG → React converter](https://getsvgeditor.com/svg-to-react) — the React Native tab sits next to it, so you can check numeric props against the preview.
 
 ### Tips for SVGR / design systems
 
@@ -285,7 +285,7 @@ Never upscale a 16px PNG in CSS and call it retina.
 4. Prefer transparency; flatten to white only if the host requires it  
 5. If the host can take SVG (most modern web UI), you often don’t need PNG  
 
-When an export looks soft but the paths are fine, stop guessing: paste the markup, nudge `width`/`height` against the preview, then download PNG. In the [SVG → PNG converter](https://getsvgeditor.com/svg-to-png) export is **2×** the SVG size — the usual retina handoff: show at 24 CSS px, file is 48 px.
+When an export looks soft but the paths are fine, stop guessing: paste the markup, nudge `width`/`height` against the preview, then download PNG. The [getsvgeditor.com SVG → PNG converter](https://getsvgeditor.com/svg-to-png) exports at **2×** the SVG size — the usual retina handoff: show at 24 CSS px, file is 48 px.
 
 ---
 
