@@ -1,0 +1,30 @@
+<svg width="780" height="430" viewBox="0 0 780 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Фоновый градиент / темная тема -->
+  <rect width="780" height="430" fill="#0B0F19"/>
+  
+  <!-- Фоновая техническая сетка -->
+  <path d="M0 70H780M0 140H780M0 210H780M0 280H780M0 350H780" stroke="#1E293B" stroke-width="1" stroke-dasharray="6 6"/>
+  <path d="M130 0V430M260 0V430M390 0V430M520 0V430M650 0V430" stroke="#1E293B" stroke-width="1" stroke-dasharray="6 6"/>
+
+  <!-- Основная карточка-подложка -->
+  <rect x="50" y="45" width="680" height="340" rx="16" fill="#111827" stroke="#374151" stroke-width="2"/>
+
+  <!-- Примеры кода (сдвинуты выше на место шапки) -->
+  <text x="85" y="95" fill="#38BDF8" font-family="monospace" font-size="18">&lt;svg viewBox="0 0 24 24"&gt;</text>
+  <text x="115" y="123" fill="#9CA3AF" font-family="monospace" font-size="16">&lt;path d="M8 6h8v12H8z" /&gt;</text>
+  <text x="85" y="151" fill="#38BDF8" font-family="monospace" font-size="18">&lt;/svg&gt;</text>
+
+  <!-- Заголовок статьи на обложке -->
+  <text x="85" y="220" fill="#F3F4F6" font-family="sans-serif" font-weight="700" font-size="28">
+    <tspan x="85" dy="0">SVG: почему иконка</tspan>
+    <tspan x="85" dy="36">получает не тот размер</tspan>
+  </text>
+
+  <text x="85" y="315" fill="#9CA3AF" font-family="sans-serif" font-size="16">
+    Разбираем viewBox, контракты, CSS и ловушки в React
+  </text>
+  
+  <!-- Бейдж категории -->
+  <rect x="585" y="62" width="115" height="26" rx="6" fill="#0369A1" fill-opacity="0.3"/>
+  <text x="602" y="79" fill="#38BDF8" font-family="sans-serif" font-size="12" font-weight="600">FRONTEND</text>
+</svg>
