@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="color-title color-desc">
+  <title id="color-title">SVG color inheritance with currentColor</title>
+  <desc id="color-desc">The same icon geometry receives different colors from light and dark theme hosts.</desc>
+  <defs>
+    <marker id="color-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="m0 0 10 5-10 5z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="500" rx="28" fill="#f8fafc"/>
+  <text x="60" y="68" fill="#0f172a" font-family="Arial,sans-serif" font-size="38" font-weight="700">One glyph, two themes</text>
+  <text x="60" y="100" fill="#475569" font-family="Arial,sans-serif" font-size="23">currentColor reads the computed CSS color of its host.</text>
+
+  <g transform="translate(80 150)">
+    <rect width="300" height="250" rx="18" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="28" y="42" fill="#475569" font-family="Arial,sans-serif" font-size="21" font-weight="700">SVG geometry</text>
+    <path d="M150 70 105 94l45 24 45-24-45-24Zm-45 52 45 24 45-24m-90 29 45 24 45-24" fill="none" stroke="#4f46e5" stroke-width="6" stroke-linejoin="round"/>
+    <text x="28" y="211" fill="#334155" font-family="monospace" font-size="19">stroke="currentColor"</text>
+  </g>
+
+  <path d="M410 275h110" stroke="#64748b" stroke-width="3" marker-end="url(#color-arrow)"/>
+  <text x="424" y="248" fill="#64748b" font-family="Arial,sans-serif" font-size="18">inherits</text>
+
+  <g transform="translate(550 150)">
+    <rect width="250" height="250" rx="18" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="28" y="42" fill="#475569" font-family="Arial,sans-serif" font-size="21" font-weight="700">Light host</text>
+    <rect x="28" y="65" width="194" height="82" rx="12" fill="#f1f5f9"/>
+    <circle cx="125" cy="106" r="28" fill="none" stroke="#2563eb" stroke-width="6"/>
+    <text x="28" y="190" fill="#334155" font-family="monospace" font-size="19">color: #2563eb</text>
+    <text x="28" y="218" fill="#047857" font-family="Arial,sans-serif" font-size="18">visible on white</text>
+  </g>
+
+  <g transform="translate(860 150)">
+    <rect width="250" height="250" rx="18" fill="#0f172a"/>
+    <text x="28" y="42" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="21" font-weight="700">Dark host</text>
+    <rect x="28" y="65" width="194" height="82" rx="12" fill="#1e293b"/>
+    <circle cx="125" cy="106" r="28" fill="none" stroke="#67e8f9" stroke-width="6"/>
+    <text x="28" y="190" fill="#e2e8f0" font-family="monospace" font-size="19">color: #67e8f9</text>
+    <text x="28" y="218" fill="#86efac" font-family="Arial,sans-serif" font-size="18">visible on dark</text>
+  </g>
+</svg>

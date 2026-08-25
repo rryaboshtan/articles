@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="pipeline-title pipeline-desc">
+  <title id="pipeline-title">SVG conversion and review pipeline</title>
+  <desc id="pipeline-desc">A four-step pipeline: inspect source, paste twice, choose output, and ship with a contract.</desc>
+  <defs>
+    <marker id="pipeline-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="m0 0 10 5-10 5z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" rx="28" fill="#fff"/>
+  <text x="60" y="68" fill="#0f172a" font-family="Arial,sans-serif" font-size="38" font-weight="700">A conversion pipeline that catches the quiet failures</text>
+  <text x="60" y="100" fill="#475569" font-family="Arial,sans-serif" font-size="23">Do the cheap checks before a converter turns the problem into JSX.</text>
+
+  <g transform="translate(60 160)">
+    <circle cx="55" cy="45" r="34" fill="#e0e7ff"/>
+    <text x="55" y="56" text-anchor="middle" fill="#4338ca" font-family="Arial,sans-serif" font-size="25" font-weight="700">1</text>
+    <text x="0" y="112" fill="#0f172a" font-family="Arial,sans-serif" font-size="23" font-weight="700">Inspect</text>
+    <text x="0" y="142" fill="#475569" font-family="Arial,sans-serif" font-size="19">viewBox, ids,</text>
+    <text x="0" y="165" fill="#475569" font-family="Arial,sans-serif" font-size="19">styles, paint</text>
+  </g>
+  <path d="M185 205h95" stroke="#64748b" stroke-width="3" marker-end="url(#pipeline-arrow)"/>
+
+  <g transform="translate(315 160)">
+    <circle cx="55" cy="45" r="34" fill="#fef3c7"/>
+    <text x="55" y="56" text-anchor="middle" fill="#b45309" font-family="Arial,sans-serif" font-size="25" font-weight="700">2</text>
+    <text x="0" y="112" fill="#0f172a" font-family="Arial,sans-serif" font-size="23" font-weight="700">Paste twice</text>
+    <text x="0" y="142" fill="#475569" font-family="Arial,sans-serif" font-size="19">catch duplicate</text>
+    <text x="0" y="165" fill="#475569" font-family="Arial,sans-serif" font-size="19">ids and CSS</text>
+  </g>
+  <path d="M440 205h95" stroke="#64748b" stroke-width="3" marker-end="url(#pipeline-arrow)"/>
+
+  <g transform="translate(570 160)">
+    <circle cx="55" cy="45" r="34" fill="#dcfce7"/>
+    <text x="55" y="56" text-anchor="middle" fill="#15803d" font-family="Arial,sans-serif" font-size="25" font-weight="700">3</text>
+    <text x="0" y="112" fill="#0f172a" font-family="Arial,sans-serif" font-size="23" font-weight="700">Choose output</text>
+    <text x="0" y="142" fill="#475569" font-family="Arial,sans-serif" font-size="19">React, RN, or</text>
+    <text x="0" y="165" fill="#475569" font-family="Arial,sans-serif" font-size="19">static asset</text>
+  </g>
+  <path d="M695 205h95" stroke="#64748b" stroke-width="3" marker-end="url(#pipeline-arrow)"/>
+
+  <g transform="translate(825 160)">
+    <circle cx="55" cy="45" r="34" fill="#fce7f3"/>
+    <text x="55" y="56" text-anchor="middle" fill="#be185d" font-family="Arial,sans-serif" font-size="25" font-weight="700">4</text>
+    <text x="0" y="112" fill="#0f172a" font-family="Arial,sans-serif" font-size="23" font-weight="700">Ship</text>
+    <text x="0" y="142" fill="#475569" font-family="Arial,sans-serif" font-size="19">a11y, bundle,</text>
+    <text x="0" y="165" fill="#475569" font-family="Arial,sans-serif" font-size="19">and theme test</text>
+  </g>
+
+  <rect x="60" y="390" width="1040" height="56" rx="12" fill="#f1f5f9"/>
+  <text x="600" y="425" text-anchor="middle" fill="#334155" font-family="Arial,sans-serif" font-size="17">If two copies render identically, the geometry is probably fine  review the contract next.</text>
+</svg>

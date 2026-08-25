@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="contract-title contract-desc">
+  <title id="contract-title">From exported artwork to a reusable icon contract</title>
+  <desc id="contract-desc">A three-step diagram showing an exported SVG, a reviewed glyph, and a themed React component.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <marker id="contract-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="m0 0 10 5-10 5z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="520" rx="28" fill="url(#bg)"/>
+  <text x="60" y="68" fill="#0f172a" font-family="Arial,sans-serif" font-size="38" font-weight="700">The icon contract</text>
+  <text x="60" y="100" fill="#475569" font-family="Arial,sans-serif" font-size="23">Keep geometry in the asset. Let the host own color and size.</text>
+
+  <g transform="translate(60 150)">
+    <rect width="300" height="270" rx="18" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="26" y="44" fill="#64748b" font-family="Arial,sans-serif" font-size="21" font-weight="700">1  EXPORT</text>
+    <rect x="26" y="68" width="248" height="105" rx="10" fill="#f8fafc"/>
+    <path d="M150 84 112 104l38 20 38-20-38-20Zm-38 42 38 20 38-20m-76 22 38 20 38-20" fill="none" stroke="#111827" stroke-width="5" stroke-linejoin="round"/>
+    <text x="26" y="211" fill="#334155" font-family="monospace" font-size="18">fill="#000000"</text>
+    <text x="26" y="238" fill="#b91c1c" font-family="Arial,sans-serif" font-size="18">fixed paint: theme risk</text>
+  </g>
+
+  <path d="M382 285h70" stroke="#64748b" stroke-width="3" marker-end="url(#contract-arrow)"/>
+
+  <g transform="translate(470 150)">
+    <rect width="300" height="270" rx="18" fill="#fff" stroke="#a5b4fc" stroke-width="2"/>
+    <text x="26" y="44" fill="#4f46e5" font-family="Arial,sans-serif" font-size="21" font-weight="700">2  REVIEW</text>
+    <rect x="26" y="68" width="248" height="105" rx="10" fill="#eef2ff"/>
+    <path d="M150 84 112 104l38 20 38-20-38-20Zm-38 42 38 20 38-20m-76 22 38 20 38-20" fill="none" stroke="#4f46e5" stroke-width="5" stroke-linejoin="round"/>
+    <text x="26" y="211" fill="#334155" font-family="monospace" font-size="18">stroke="currentColor"</text>
+    <text x="26" y="238" fill="#047857" font-family="Arial,sans-serif" font-size="18">shape: reusable glyph</text>
+  </g>
+
+  <path d="M792 285h70" stroke="#64748b" stroke-width="3" marker-end="url(#contract-arrow)"/>
+
+  <g transform="translate(880 150)">
+    <rect width="260" height="270" rx="18" fill="#0f172a"/>
+    <text x="26" y="44" fill="#a5b4fc" font-family="Arial,sans-serif" font-size="21" font-weight="700">3  COMPONENT</text>
+    <circle cx="130" cy="118" r="42" fill="#1e293b"/>
+    <path d="m130 90-27 14 27 14 27-14-27-14Zm-27 32 27 14 27-14m-54 16 27 14 27-14" fill="none" stroke="#67e8f9" stroke-width="4" stroke-linejoin="round"/>
+    <text x="26" y="211" fill="#e2e8f0" font-family="monospace" font-size="17">color: var(--icon)</text>
+    <text x="26" y="238" fill="#86efac" font-family="Arial,sans-serif" font-size="18">theme chooses paint</text>
+  </g>
+</svg>

@@ -1,10 +1,12 @@
-You know the pattern: the app ships on a light theme, icons look fine, nobody thinks about tokens. Later someone flips the UI to dark — black background, same icons — and half the toolbar vanishes. Not because CSS “broke.” Because the SVG still has `fill="#000000"` (or a hard-coded grey), and you never wired color through a variable / `currentColor` in the first place.
+You know the pattern: the app ships with a light theme, the icons look fine, and nobody thinks about tokens. Later someone flips the UI to dark — black background, same icons — and half the toolbar vanishes. CSS did not “break.” The SVG still has `fill="#000000"` (or a hard-coded grey), and its color was never wired to a variable or `currentColor`.
 
-Easy to run into on a real project: theming arrives later, the icon keeps a fixed paint value, the theme flips, and the icon disappears on the new background.
+It is an easy failure to ship: theming arrives later, the icon keeps a fixed paint value, the theme flips, and the icon disappears against the new background. When I need to check both the source and the rendered result quickly, I use [getsvgeditor.com](https://getsvgeditor.com/) to inspect the markup beside a live preview.
 
 This is not a “use a better icon pack” problem. It is a **contract** problem: the SVG was authored as **paint on a canvas**, but your app needs a **glyph that inherits color**.
 
-Here is a solid mental model for icon reviews — and for converting SVG → React in the browser.
+This article gives you a practical mental model for reviewing icons and converting SVG to React in the browser. It also separates the decisions that are often mixed together: geometry, paint, accessibility, and delivery.
+
+![An SVG icon moves from a design export to a reusable, theme-aware component](./images/01-icon-contract.png)
 
 ## The lie in the export
 
@@ -17,7 +19,7 @@ Most design tools give you something like:
 </svg>
 ```
 
-`#000` is not “default.” It is a **hard theme choice**. Same trap with `#111`, `#1A1A1A`, `black`, or “almost black” greys from auto-export. Search the file for those before you merge.
+`#000` is not “default.” It is a **hard theme choice**. The same trap appears with `#111`, `#1A1A1A`, `black`, and the almost-black greys produced by automatic export. Search for all of them before you merge. Also inspect inline `style`, CSS classes, and `<style>` blocks: a fixed color can be hiding there even when the path has no `fill` attribute.
 
 ## Three contracts for an icon
 
@@ -28,6 +30,8 @@ Pick one. Mixing them is how icon systems rot.
 - **Bitmap handoff** — PNG/WebP for email, decks, or a CMS that rejects SVG.
 
 UI chrome should almost always be a **glyph**. That is what `currentColor` is for.
+
+![The color contract: artwork keeps geometry, while the host chooses the color](./images/02-color-contract.png)
 
 ## The React shape that actually works
 
@@ -66,13 +70,15 @@ Why this shape:
 3. **`viewBox` kept** — width/height become layout knobs, not geometry.
 4. **`aria-hidden` by default** — decorative; the **button** (or link) gets the accessible name.
 
+`currentColor` is the element’s computed CSS `color`, not a special SVG palette. It can be inherited from a parent, changed by a theme class, or overridden at the call site. That makes it useful for one-color UI glyphs. It does not magically recolor gradients, embedded images, or paths that still carry a more specific CSS rule. If a path uses `fill` and another uses `stroke`, set `currentColor` on the paint that actually draws each one.
+
 ```tsx
 <button type="button" aria-label="Layers">
   <LayersIcon className="text-sky-300" />
 </button>
 ```
 
-If Figma left a `<title>` inside the SVG, remove it when the control already has a name — otherwise screen readers announce twice.
+If Figma left a `<title>` inside the SVG, remove it when the control already has a name — otherwise screen readers may announce the icon twice. For a decorative inline SVG, `aria-hidden="true"` plus `focusable="false"` is a safe default. For a meaningful standalone graphic, do the opposite: give it a real accessible name with `<title>` or `aria-labelledby`, and do not hide it.
 
 **Stroke vs fill trap:** some Figma exports use `fill`, some use `stroke`, some mix both. Put `currentColor` on the attribute that actually paints. Leaving `fill="#000"` on a “stroke icon” is a classic silent miss in review.
 
@@ -91,7 +97,7 @@ Multi-color product marks (logo with two brand hues) are **paint**, not glyphs. 
 
 ## React Native: same idea, different host
 
-React Native does not render HTML SVG. You want `react-native-svg`, and **numbers**, not strings:
+React Native does not render browser SVG elements. You want `react-native-svg`, and **numbers**, not strings:
 
 ```tsx
 import Svg, { Path } from "react-native-svg";
@@ -109,7 +115,7 @@ export default function LayersIcon(props) {
 }
 ```
 
-`width="24"` vs `width={24}` is a classic RN footgun. Hand ports often forget one prop and fail in weird, quiet ways. If you generate JSX, emit numbers.
+`width="24"` versus `width={24}` is a classic React Native footgun. A hand port can appear fine in a browser and then fail or behave inconsistently on mobile. If you generate JSX, emit numbers and verify the component against the `react-native-svg` version your app actually uses.
 
 ## Paste-JSX vs SVGR — pick by volume, not ideology
 
@@ -127,11 +133,13 @@ Before you trust any converter output, check three things yourself:
 2. `{...props}` on the root `<svg>` / `<Svg>`
 3. gradient / clip `id`s unique per file (two icons with `id="paint0"` on one page will fight)
 
-Do **not** expect a converter to invent `currentColor` for you or uniquify every Figma `id` across your whole set. That is still your review.
+Do **not** expect a converter to invent `currentColor` for you, infer whether a logo is allowed to change color, or uniquify every Figma `id` across your whole set. Those are design and integration decisions, so they still belong in review.
+
+![A practical conversion pipeline: inspect the source, test two copies, then ship the right output](./images/03-conversion-pipeline.png)
 
 ## Bundle cost (the part people skip)
 
-A React icon is **JavaScript in your bundle**.
+A React icon is **JavaScript in your bundle**, and an inline SVG is also part of the DOM. That matters for large illustrations: you pay in transfer size, parse time, DOM nodes, and potentially repeated filter or gradient definitions.
 
 - 40 toolbar icons as components → usually fine  
 - one 200KB illustration inlined as JSX → you paid a tax for nothing  
@@ -145,7 +153,7 @@ Rule of thumb:
 
 ## Next.js App Router
 
-Icon components **without hooks** are valid Server Components — they are just JSX. Colocate named files under `components/icons/` so unused icons tree-shake. Avoid a mega `icons.tsx` barrel that re-exports the world and drags everything into the graph.
+Icon components **without hooks** are valid Server Components — they are just JSX. Colocate named files under `components/icons/` so unused icons can be tree-shaken. Avoid a mega `icons.tsx` barrel that re-exports the world and drags every icon into the module graph. If an icon depends on browser APIs or event handlers, that is a separate reason to make the component a Client Component; SVG itself is not the reason.
 
 ## A 60-second checklist before you merge an icon
 
@@ -157,5 +165,7 @@ Icon components **without hooks** are valid Server Components — they are just 
 6. Gradient / clip `id`s unique per file  
 7. RN path uses numeric props  
 8. Full illustration → static asset, not a component
+
+One final boundary: never inject untrusted SVG markup directly into a privileged DOM. SVG can contain scripts, event handlers, external references, and expensive filter graphs. Sanitize uploaded files, render them as isolated assets where possible, and treat conversion as a transformation step — not as a security boundary.
 
 If you have a sharper rule for icon reviews, drop it in the comments.👇
