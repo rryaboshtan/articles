@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960" role="img" aria-labelledby="title desc">
   <title id="title">React SVG icon prop order decides who wins size</title>
-  <desc id="desc">Spread props early and the call site loses size; spread last and the caller wins.</desc>
+  <desc id="desc">Put the spread before fixed size props and the caller loses; put it last and the caller wins.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#111827"/>
@@ -20,12 +20,12 @@
 
   <rect width="1600" height="960" fill="url(#bg)"/>
   <text class="kicker" x="64" y="68">REACT / JSX</text>
-  <text class="title" x="64" y="136">Prop order is a size bug factory</text>
-  <text class="lead" x="64" y="196">Call site wants 16. File defaults to 24.</text>
+  <text class="title" x="64" y="136">Prop order can change the icon size</text>
+  <text class="lead" x="64" y="196">The caller asks for 16. The default is 24.</text>
 
   <rect x="64" y="250" width="700" height="600" rx="28" fill="#0f172a" stroke="#b91c1c" stroke-width="4"/>
   <rect x="64" y="250" width="16" height="600" fill="#ef4444"/>
-  <text class="h" x="120" y="330">Silent lose</text>
+  <text class="h" x="120" y="330">Caller loses</text>
   <text class="code" x="120" y="420">&lt;svg</text>
   <text class="code" x="120" y="475">{...props}</text>
   <text class="code bad" x="120" y="530">width={24} height={24}</text>

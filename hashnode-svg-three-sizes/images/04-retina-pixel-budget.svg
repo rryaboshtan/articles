@@ -20,14 +20,14 @@
 
   <rect width="1600" height="980" fill="url(#bg)"/>
   <text class="kicker" x="64" y="68">PNG FROM SVG</text>
-  <text class="title" x="64" y="136">Pixel budget = CSS size x DPR</text>
-  <text class="lead" x="64" y="196">PNG only knows how many pixels you asked for.</text>
+  <text class="title" x="64" y="136">PNG size = CSS size x DPR</text>
+  <text class="lead" x="64" y="196">A PNG only knows how many pixels it has.</text>
 
   <rect x="64" y="250" width="1472" height="84" rx="18" fill="#292524"/>
   <text class="th" x="110" y="306">CSS SIZE</text>
   <text class="th" x="460" y="306">DPR</text>
-  <text class="th" x="720" y="306">EXPORT PNG</text>
-  <text class="th" x="1120" y="306">ON 2x SCREEN</text>
+  <text class="th" x="720" y="306">PNG SIZE</text>
+  <text class="th" x="1120" y="306">RESULT</text>
 
   <rect x="64" y="360" width="1472" height="96" rx="18" fill="#1c1917" stroke="#57534e" stroke-width="2"/>
   <text class="td" x="110" y="424">24x24</text>

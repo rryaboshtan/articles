@@ -4,15 +4,17 @@ slug: svg-viewbox-vs-width-height-css
 description: "Why Figma SVGs look the wrong size: viewBox is the contract, width/height are defaults, CSS/props set size. Retina PNG math + a 60s audit."
 ---
 
-# SVG viewBox vs width/height vs CSS: The Three Sizes That Break Icons
+# Why SVG Icons Render at the Wrong Size: viewBox, width/height, and CSS
 
-You export a 24×24 icon from Figma. In the browser it renders tiny or huge, or it looks sharp as SVG but turns soft after PNG export. The file is almost never “broken.” It’s carrying **three different sizes at once**, and your tools listened to the wrong one.
 
-Most advice boils down to “don’t touch the `viewBox`.” That’s necessary, but not enough. If you run a design system, wrap icons in React, or ship PNGs for email, you need to know which size is the **contract** — and which two are just defaults. [getsvgeditor.com](https://getsvgeditor.com) is useful here: you can compare the markup with a live preview before deciding which size to change.
+
+You export a 24×24 icon from Figma. In the browser it renders tiny or huge, or it looks sharp as SVG but turns soft after PNG export. The file is usually not broken. It carries **three different sizes at once**, and one of your tools used the wrong one.
+
+Most advice boils down to “don’t touch the `viewBox`.” That is useful, but incomplete. If you run a design system, wrap icons in React, or ship PNGs for email, you need to know which size is the **contract** and which two are only defaults. **For that:** [getsvgeditor.com](https://getsvgeditor.com) helps with this because you can compare the markup with a live preview before changing anything.
 
 ![Three SVG size signals: viewBox is the contract, width/height are defaults, CSS/props set the on-screen size](./images/01-three-sizes.svg)
 
-## SVG viewBox vs width/height vs CSS — three sizes
+## SVG viewBox, width/height, and CSS: three sizes
 
 A typical design-tool export looks harmless:
 
@@ -27,7 +29,7 @@ A typical design-tool export looks harmless:
 </svg>
 ```
 
-That’s **three independent signals**:
+The root element contains three separate signals:
 
 | Signal | What it’s for | Who cares |
 | --- | --- | --- |
@@ -35,14 +37,14 @@ That’s **three independent signals**:
 | **`width` / `height` attributes** | The default on-screen size when nothing else overrides it | The browser (if CSS is silent), some PNG exporters, naïve copy-paste |
 | **CSS / props** (`className`, `width={32}`) | The size **this use** should have in the UI | React, layout, design tokens |
 
-When they disagree, you get the usual bugs:
+When they disagree, the bugs are familiar:
 
 - Fine as `<img src="icon.svg">`, wrong as inline JSX
 - `<Icon width={16} />` seems to do nothing (CSS or attribute order wins)
 - Retina PNG looks soft because you rasterized the **attribute** size, not the CSS size you actually show
 - `viewBox="0 0 24 24"` while paths were drawn in `0…100` → empty padding or a clipped glyph
 
-**Rule of thumb:** `viewBox` is the contract. Attributes are a fallback. CSS and props are the on-screen size.
+The short version is this: `viewBox` is the contract, attributes are fallbacks, and CSS or props control the size on screen.
 
 ### How the browser picks the size
 
@@ -50,28 +52,19 @@ Inline SVG and `<img src="*.svg">` do **not** follow the same rules.
 
 **Inline SVG** in HTML or JSX is a real DOM tree. Layout checks CSS first, then presentation attributes on the root `<svg>`.
 
-**`<img>` and `background-image`** treat the file like an image. The browser looks for an intrinsic size: absolute root `width`/`height`, otherwise aspect ratio from `viewBox`, otherwise the infamous fallback — **300×150**.
+**`<img>` and `background-image`** treat the file like an image. The browser looks for an intrinsic size: absolute root `width`/`height`, then the aspect ratio from `viewBox`. If it still has no concrete size, the fallback is often **300×150**.
 
-For icon bugs, the order is usually:
+For an icon, CSS, flex, or grid normally determines the box on screen. When CSS says nothing, root `width` and `height` provide the intrinsic size. In HTML, a bare `24` means `24px`. If those attributes are missing, `viewBox` can provide the aspect ratio but not always a concrete size, so some engines fall back to a **300×150** box. That is how a “tiny icon” becomes a banner after someone removes the attributes. The `viewBox` still decides what is drawn inside the box. CSS and attributes decide how large that box is.
 
-1. CSS, flex, or grid sets the **box on screen**.
-2. If CSS is silent, root `width`/`height` become the intrinsic size (bare `24` in HTML means `24px`).
-3. If those are missing too, `viewBox` only gives an aspect ratio — and if there’s still no concrete size, many engines paint a **300×150** box. That’s how a “tiny icon” becomes a banner after someone “cleaned up” the attributes.
-4. `viewBox` still decides **what** is drawn inside the box. CSS and attributes only decide **how large** that box is.
+`viewBox` units are not CSS pixels. They are the drawing’s own coordinate space. `stroke-width="1.5"` means one and a half of those units. Scale the icon from 24 to 48 CSS pixels and the stroke looks twice as thick on screen unless you set `vector-effect="non-scaling-stroke"`.
 
-`viewBox` units are not CSS pixels. They’re the drawing’s own coordinate space. `stroke-width="1.5"` means one and a half of those units. Scale the icon from 24 to 48 CSS pixels and the stroke looks twice as thick on screen — unless you set `vector-effect="non-scaling-stroke"`.
-
-That projection is what this whole article is about.
+That projection is the source of most sizing confusion.
 
 ---
 
 ## How SVG sizing works: coordinates, projection, pixels
 
-Think of SVG as a canvas API with XML syntax:
-
-1. **Coordinates** — numbers in `d`, `cx`, `x`, and so on live in `viewBox` units.
-2. **Projection** — the renderer stretches that box onto a layout box or a pixel grid when you export.
-3. **Pixels** — only appear when something asks for a bitmap: PNG, `<canvas>`, a screenshot, or a flattened PDF.
+It helps to think of SVG as a canvas API with XML syntax. Numbers in `d`, `cx`, and `x` live in `viewBox` units. The renderer projects that coordinate system onto a layout box or a pixel grid. Pixels appear only when something asks for a bitmap, such as PNG, `<canvas>`, a screenshot, or a flattened PDF.
 
 ![Authoring coordinates project onto a layout box and become pixels only when you rasterize](./images/02-mapping-model.svg)
 
@@ -96,7 +89,7 @@ Design tools love this setup: frame is 24, glyph is about 16, centered.
 
 Icon systems want the third row: **a stable `viewBox`, no baked-in presentation size, and the instance size set where the icon is used.**
 
-### `preserveAspectRatio` — the quiet fourth control
+### `preserveAspectRatio`, the fourth control
 
 When the CSS box aspect ratio doesn’t match the `viewBox`, `preserveAspectRatio` decides letterboxing vs cropping vs stretching:
 
@@ -106,7 +99,7 @@ When the CSS box aspect ratio doesn’t match the `viewBox`, `preserveAspectRati
 | `xMidYMid slice` | Fill the box, keep proportions, may crop |
 | `none` | Stretch to fill (almost always wrong for icons) |
 
-If an icon looks squashed after `width: 32px; height: 20px`, the path isn’t broken — you changed the box and did (or didn’t) keep the aspect ratio.
+If an icon looks squashed after `width: 32px; height: 20px`, the path is probably fine. The box changed, and the aspect ratio setting may not match it.
 
 ---
 
@@ -119,13 +112,13 @@ If an icon looks squashed after `width: 32px; height: 20px`, the path isn’t br
 </svg>
 ```
 
-The circle’s center sits outside the declared box. You can “fix” size in CSS all day and still see a clipped disc. The `viewBox` contract was wrong — not the button styles.
+The circle’s center sits outside the declared box. You can adjust the CSS size all day and still get a clipped disc. The problem is the `viewBox`, not the button styles.
 
-![A lying viewBox clips art drawn in a larger coordinate space](./images/05-viewbox-lie.svg)
+![A wrong viewBox clips art drawn in a larger coordinate space](./images/05-viewbox-lie.svg)
 
 **How to check in 30 seconds**
 
-These are three different rectangles — don’t mix them up:
+These are three different rectangles, so do not mix them up:
 
 | What you inspect | Units | What it tells you |
 | --- | --- | --- |
@@ -143,7 +136,7 @@ console.log(svg.getBoundingClientRect());     // on-screen CSS box
 
 If `getBBox()` is roughly `0…100` and `viewBox` is `0 0 24 24`, the file is lying. CSS won’t save you.
 
-**A common Figma export pattern:** the ink gets wrapped in `<g transform="translate(4 4)">` (or nested translates), while the root still claims `viewBox="0 0 24 24"`. It looked centered in the design tool; the shipped file’s contract doesn’t match the path numbers. Fix it once — recompute `viewBox` from `getBBox()`, or flatten transforms in the exporter — instead of patching `translate` in every PR.
+**A common Figma export pattern:** the ink gets wrapped in `<g transform="translate(4 4)">` or nested translates, while the root still claims `viewBox="0 0 24 24"`. It looked centered in the design tool, but the shipped file’s contract does not match the path numbers. Fix it once by recomputing `viewBox` from `getBBox()` or flattening transforms in the exporter. Do not patch `translate` in every PR.
 
 Don’t invent `0 0 24 24` just because “icons are 24.” Measure the real bounds, then pick a team grid (20 or 24) and normalize to it.
 
@@ -151,7 +144,7 @@ Don’t invent `0 0 24 24` just because “icons are 24.” Measure the real bou
 
 ## Why React breaks SVG icon size
 
-Browsers forgive messy HTML. React makes the conflict obvious through **prop order**:
+Browsers can hide messy HTML. React makes the conflict obvious through **prop order**:
 
 ```jsx
 // Component default: 24. Call site asks for 16. Who wins?
@@ -172,14 +165,14 @@ export function Icon(props) {
 <Icon width={16} height={16} className="text-slate-700" />
 ```
 
-With `{...props}` last, `16` wins. Move the spread earlier and the call site quietly loses. Teams can spend a week arguing about “broken icons” before someone checks attribute order.
+With `{...props}` last, `16` wins. Move the spread earlier and the call site loses without any obvious error. Check attribute order before blaming the icon.
 
-![React SVG prop order: spread early and the call site loses; spread last and the caller wins](./images/03-react-prop-order.svg)
+![React SVG prop order: the caller loses when fixed size props come last](./images/03-react-prop-order.svg)
 
-**Before and after — the shape of a real PR:**
+**Before and after:**
 
 ```jsx
-// BEFORE — fine in Storybook at default 24, “broken” in a dense toolbar
+// BEFORE: fine in Storybook at default 24, “broken” in a dense toolbar
 export function Chevron(props) {
   return (
     <svg viewBox="0 0 24 24" {...props} width={24} height={24}>
@@ -187,9 +180,9 @@ export function Chevron(props) {
     </svg>
   );
 }
-// <Chevron width={16} /> still paints at 24 — the spread lost
+// <Chevron width={16} /> still paints at 24 because the spread lost
 
-// AFTER — one size API, call site wins, viewBox left alone
+// AFTER: one size API, call site wins, viewBox left alone
 export function Chevron({ size = 24, ...props }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" {...props}>
@@ -199,7 +192,7 @@ export function Chevron({ size = 24, ...props }) {
 }
 ```
 
-Watch **types in React Native** too. Web often forgives `width="24"` as a string; `react-native-svg` wants `width={24}` as a number. A converter that emits quotes “breaks size” only on mobile — another fake “SVG is broken” ticket.
+Watch **types in React Native** too. Web often forgives `width="24"` as a string; `react-native-svg` wants `width={24}` as a number. A converter that emits quotes can break sizing only on mobile.
 
 ### A clean default for UI icons
 
@@ -224,7 +217,7 @@ Leave `viewBox` alone. Expose one size API. Don’t also hard-code a second size
 
 **CSS trap:** if your stylesheet has `.icon { width: 24px !important; }`, props will look broken even with perfect JSX order. On-screen size needs one owner.
 
-React Native follows the same idea with numeric props (`width={24}` on `<Svg>`). Same contract: `viewBox` in the file, size at the call site. If you need JSX quickly, paste into the [getsvgeditor.com SVG → React converter](https://getsvgeditor.com/svg-to-react) — the React Native tab sits next to it, so you can check numeric props against the preview.
+React Native follows the same idea with numeric props (`width={24}` on `<Svg>`). The contract is the same: `viewBox` in the file, size at the call site. If you need JSX quickly, paste it into the [getsvgeditor.com SVG → React converter](https://getsvgeditor.com/svg-to-react). The React Native tab sits next to it, so you can check numeric props against the preview.
 
 ### Tips for SVGR / design systems
 
@@ -279,13 +272,13 @@ Never upscale a 16px PNG in CSS and call it retina.
 
 ### Before you export SVG to PNG
 
-1. `viewBox` matches the real path bounds — no surprise crop  
+1. `viewBox` matches the real path bounds, with no surprise crop  
 2. Decide the **CSS display size** first (email, CMS, whatever)  
 3. Multiply by the density you care about, then export  
 4. Prefer transparency; flatten to white only if the host requires it  
 5. If the host can take SVG (most modern web UI), you often don’t need PNG  
 
-When an export looks soft but the paths are fine, stop guessing: paste the markup, nudge `width`/`height` against the preview, then download PNG. The [getsvgeditor.com SVG → PNG converter](https://getsvgeditor.com/svg-to-png) exports at **2×** the SVG size — the usual retina handoff: show at 24 CSS px, file is 48 px.
+When an export looks soft but the paths are fine, stop guessing. Paste the markup, compare `width` and `height` with the preview, then download the PNG. **In practice,** the [getsvgeditor.com SVG → PNG converter](https://getsvgeditor.com/svg-to-png) exports at **2×** the SVG size, so a 24 CSS pixel image becomes a 48 pixel file.
 
 ---
 
@@ -299,17 +292,17 @@ When an export looks soft but the paths are fine, stop guessing: paste the marku
 
 Size bugs show up in all three. Components just make the contract explicit: **`viewBox` in the file, size at the call site**.
 
-For a deeper comparison of embedding methods (inline vs `<img>` vs background vs sprite), that’s a separate guide — same topic, different decision.
+For a deeper comparison of embedding methods, such as inline SVG, `<img>`, backgrounds, and sprites, see the separate guide. It covers a different decision.
 
 ---
 
 ## Edge cases
 
-These are the “we already keep viewBox” bugs that still ship.
+These are the bugs that still appear even when a team keeps the `viewBox`.
 
-### 1. No size at all → 300×150 billboard
+### 1. No size at all: 300×150 billboard
 
-No CSS size, no root `width`/`height`, only a `viewBox` — many engines fall back to SVG’s default intrinsic size (often **300×150**). Your 24 icon becomes a banner. Set size with CSS or a `size` prop, or keep sensible attributes when the file isn’t a component.
+No CSS size, no root `width`/`height`, only a `viewBox`: many engines fall back to SVG’s default intrinsic size, often **300×150**. Your 24 icon becomes a banner. Set the size with CSS or a `size` prop, or keep sensible attributes when the file is not a component.
 
 ### 2. SVGO removed your defaults (and sometimes more)
 
@@ -323,7 +316,7 @@ Exports can wrap the art in `<g transform="translate(...)">` while the root box 
 
 When icons scale from 16→32, hairlines get thicker unless you opt into non-scaling strokes. Pick one rule for the whole set: strokes scale with the icon (default), or optical weight stays roughly constant. Don’t mix both strategies in one icon set.
 
-### 5. Hard-coded `#000` + wrong size = “the icon is broken”
+### 5. Hard-coded `#000` plus the wrong size
 
 Wrong color and wrong size often land as one ticket. For UI icons, prefer `currentColor` or CSS variables so theming and sizing stay separate.
 
@@ -333,11 +326,11 @@ Many email clients are hostile to inline SVG. Plan on PNG (usually 2×) with a 1
 
 ### 7. `width="100%"` without a definite height
 
-Percentages resolve against the containing block. An SVG with `width="100%"` and no height / no CSS aspect ratio can collapse, stretch via `preserveAspectRatio="none"`, or hit the 300×150 trap — depending on context. For icons: absolute defaults or a `size` prop, not percentages.
+Percentages resolve against the containing block. An SVG with `width="100%"` and no height or CSS aspect ratio can collapse, stretch via `preserveAspectRatio="none"`, or hit the 300×150 trap, depending on context. For icons, use absolute defaults or a `size` prop instead of percentages.
 
 ### 8. `overflow` and “missing” strokes
 
-Root SVG defaults to `overflow: hidden` in many user-agent stylesheets. Art that sits flush against the `viewBox` edge can clip antialiased strokes when scaled. Either leave optical padding inside the 24 grid, or set `overflow="visible"` on purpose — don’t widen `stroke-width` until you’ve ruled out clipping.
+Root SVG defaults to `overflow: hidden` in many user-agent stylesheets. Art that sits flush against the `viewBox` edge can clip antialiased strokes when scaled. Leave optical padding inside the 24 grid, or set `overflow="visible"` deliberately. Do not widen `stroke-width` until you have ruled out clipping.
 
 ---
 
@@ -353,7 +346,7 @@ Run this before you merge or before you rasterize:
 6. **Is `preserveAspectRatio` fighting a non-square box?** Check before blaming paths.  
 7. **No CSS and no attributes?** Watch for the 300×150 default.  
 8. **Do `getBBox()` and `viewBox` agree?** If not, fix the contract before the button CSS.  
-9. **Hairline clipped at the frame edge?** Check `overflow` / optical padding — not only `stroke-width`.  
+9. **Hairline clipped at the frame edge?** Check `overflow` and optical padding, not only `stroke-width`.  
 
 ---
 
@@ -363,12 +356,12 @@ Write it down so you stop rediscovering it in every PR:
 
 | Layer | Decision |
 | --- | --- |
-| **Authoring** | One square `viewBox` — 24 *or* 20, pick one |
+| **Authoring** | One square `viewBox`; choose 24 or 20 and stick to it |
 | **Web** | Components with `size` + `currentColor`; no per-instance path edits |
 | **Email / older hosts** | PNG at 2×, template sized to the 1× CSS slot |
 | **Pipeline** | SVGR (or similar) for a steady stream of `.svg` files; paste-to-JSX when you need one component and a live preview now |
 
-Three sizes will always exist. Production stays calm only when **one** of them is allowed to win — and that should be the size at the call site, not a surprise baked into the file.
+Three sizes will always exist. The useful decision is to choose which one wins. For a component, that should be the size at the call site, not a value hidden in the asset.
 
 ### When the next icon “looks broken”
 
@@ -376,8 +369,8 @@ Don’t start with `stroke-width`. Ask which signal won:
 
 1. Is the `viewBox` honest?  
 2. Are attributes fighting CSS or props?  
-3. If you need a bitmap — did you export **CSS size × screen density**, not the SVG attribute size?  
+3. If you need a bitmap, did you export **CSS size × screen density**, not the SVG attribute size?  
 
-Paste the markup, check the contract against a live preview, set the size where the icon is used, and rasterize only when the host can’t take SVG.
+Paste the markup into a preview, check the contract, set the size where the icon is used, and rasterize only when the host cannot take SVG.
 
-Keep the contract in the asset. Keep the size argument at the call site. The postage-stamp icons and soft PNGs usually disappear after that.
+Keep the contract in the asset and the size argument at the call site. If an icon still renders at the wrong size, inspect those two places before changing the path.

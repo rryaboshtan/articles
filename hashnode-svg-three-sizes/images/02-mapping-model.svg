@@ -38,7 +38,7 @@
   <rect x="668" y="340" width="324" height="200" rx="18" fill="#172554" stroke="#60a5fa" stroke-width="4"/>
   <text class="mono" x="700" y="410">CSS / layout box</text>
   <rect x="720" y="440" width="220" height="70" fill="none" stroke="#93c5fd" stroke-width="6"/>
-  <text class="p" x="652" y="640">Renderer maps the</text>
+  <text class="p" x="652" y="640">The renderer maps the</text>
   <text class="p" x="652" y="690">box onto the screen.</text>
 
   <line x1="1070" y1="490" x2="1150" y2="490" stroke="#93c5fd" stroke-width="8" marker-end="url(#arrow)"/>
@@ -58,6 +58,6 @@
     <rect x="140" y="10" width="130" height="130" fill="none" stroke="#fbbf24" stroke-width="5"/>
     <text class="mono" x="170" y="90">PNG</text>
   </g>
-  <text class="p" x="1202" y="640">Only when you ask</text>
-  <text class="p" x="1202" y="690">for a bitmap.</text>
+  <text class="p" x="1202" y="640">Pixels show up in</text>
+  <text class="p" x="1202" y="690">a bitmap export.</text>
 </svg>

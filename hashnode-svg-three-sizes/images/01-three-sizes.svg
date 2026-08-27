@@ -35,7 +35,7 @@
   <circle cx="160" cy="860" r="240" fill="#a3e635" opacity="0.06"/>
 
   <text class="kicker" x="64" y="68">SVG SIZING</text>
-  <text class="title" x="64" y="136">Three size signals - one contract</text>
+  <text class="title" x="64" y="136">Three size signals, one contract</text>
   <text class="lead" x="64" y="192">When they disagree, the icon looks broken.</text>
 
   <rect x="64" y="240" width="460" height="560" rx="28" fill="#111827" stroke="#64748b" stroke-width="3"/>
@@ -45,8 +45,8 @@
   <text class="mono" x="118" y="404">viewBox="0 0 24 24"</text>
   <text class="sub" x="100" y="490">Internal coordinates.</text>
   <text class="sub" x="100" y="540">The drawing contract.</text>
-  <text class="sub" x="100" y="610">Listened by renderers</text>
-  <text class="sub" x="100" y="660">and icon pipelines.</text>
+  <text class="sub" x="100" y="610">Used by renderers</text>
+  <text class="sub" x="100" y="660">and icon tools.</text>
   <rect x="100" y="720" width="200" height="52" rx="14" fill="#38bdf8"/>
   <text class="badge" x="132" y="755">CONTRACT</text>
 
@@ -68,12 +68,12 @@
   <text class="label" x="1112" y="330">3. CSS / props</text>
   <rect x="1112" y="360" width="388" height="64" rx="14" fill="#0f172a" stroke="#475569" stroke-width="2"/>
   <text class="mono" x="1130" y="404">width={32} or CSS</text>
-  <text class="sub" x="1112" y="490">Size for this use</text>
-  <text class="sub" x="1112" y="540">in the real UI.</text>
+  <text class="sub" x="1112" y="490">Size for this spot</text>
+  <text class="sub" x="1112" y="540">in the UI.</text>
   <text class="sub" x="1112" y="610">React, layout,</text>
   <text class="sub" x="1112" y="660">design tokens.</text>
   <rect x="1112" y="720" width="200" height="52" rx="14" fill="#fbbf24"/>
   <text class="badge" x="1148" y="755">INSTANCE</text>
 
-  <text class="rule" x="64" y="880">Rule: viewBox stays stable - CSS/props own the call site</text>
+  <text class="rule" x="64" y="880">Keep viewBox stable. Set size where the icon is used.</text>
 </svg>
