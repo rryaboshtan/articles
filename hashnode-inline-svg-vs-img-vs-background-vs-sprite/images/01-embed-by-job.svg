@@ -21,31 +21,31 @@
 
   <g font-family="Segoe UI, Arial, sans-serif">
     <rect x="64" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
-    <text x="88" y="298" fill="#3d9cf0" font-size="18" font-weight="700">Inline / component</text>
-    <text x="88" y="336" fill="#e7eef7" font-size="20" font-weight="600">UI chrome</text>
-    <text x="88" y="372" fill="#8b9bb0" font-size="16">theme / hover / a11y</text>
-    <text x="88" y="430" fill="#7fd99a" font-size="15" font-weight="600">currentColor</text>
-    <text x="88" y="458" fill="#8b9bb0" font-size="15">watch the bundle</text>
+    <text x="88" y="298" fill="#3d9cf0" font-size="23" font-weight="700">Inline / component</text>
+    <text x="88" y="336" fill="#e7eef7" font-size="24" font-weight="600">UI chrome</text>
+    <text x="88" y="372" fill="#8b9bb0" font-size="21">theme / hover / a11y</text>
+    <text x="88" y="430" fill="#7fd99a" font-size="20" font-weight="600">currentColor</text>
+    <text x="88" y="458" fill="#8b9bb0" font-size="20">watch the bundle</text>
 
     <rect x="338" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
-    <text x="362" y="298" fill="#3d9cf0" font-size="18" font-weight="700">&lt;img src&gt;</text>
-    <text x="362" y="336" fill="#e7eef7" font-size="20" font-weight="600">Logo / figure</text>
-    <text x="362" y="372" fill="#8b9bb0" font-size="16">honest alt / CDN cache</text>
-    <text x="362" y="430" fill="#7fd99a" font-size="15" font-weight="600">isolation</text>
-    <text x="362" y="458" fill="#8b9bb0" font-size="15">no deep CSS</text>
+    <text x="362" y="298" fill="#3d9cf0" font-size="23" font-weight="700">&lt;img src&gt;</text>
+    <text x="362" y="336" fill="#e7eef7" font-size="24" font-weight="600">Logo / figure</text>
+    <text x="362" y="372" fill="#8b9bb0" font-size="21">honest alt / CDN cache</text>
+    <text x="362" y="430" fill="#7fd99a" font-size="20" font-weight="600">isolation</text>
+    <text x="362" y="458" fill="#8b9bb0" font-size="20">no deep CSS</text>
 
     <rect x="612" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
-    <text x="636" y="298" fill="#3d9cf0" font-size="18" font-weight="700">CSS background</text>
-    <text x="636" y="336" fill="#e7eef7" font-size="20" font-weight="600">Decoration</text>
-    <text x="636" y="372" fill="#8b9bb0" font-size="16">atmosphere only</text>
-    <text x="636" y="430" fill="#e6c07b" font-size="15" font-weight="600">invisible to AT</text>
-    <text x="636" y="458" fill="#8b9bb0" font-size="15">zero content SEO</text>
+    <text x="636" y="298" fill="#3d9cf0" font-size="23" font-weight="700">CSS background</text>
+    <text x="636" y="336" fill="#e7eef7" font-size="24" font-weight="600">Decoration</text>
+    <text x="636" y="372" fill="#8b9bb0" font-size="21">atmosphere only</text>
+    <text x="636" y="430" fill="#e6c07b" font-size="20" font-weight="600">invisible to AT</text>
+    <text x="636" y="458" fill="#8b9bb0" font-size="20">zero content SEO</text>
 
     <rect x="886" y="250" width="250" height="280" rx="16" fill="url(#card)" stroke="#2a3544"/>
-    <text x="910" y="298" fill="#3d9cf0" font-size="18" font-weight="700">Sprite + use</text>
-    <text x="910" y="336" fill="#e7eef7" font-size="20" font-weight="600">Icon system</text>
-    <text x="910" y="372" fill="#8b9bb0" font-size="16">shared chrome set</text>
-    <text x="910" y="430" fill="#7fd99a" font-size="15" font-weight="600">one cached sheet</text>
-    <text x="910" y="458" fill="#8b9bb0" font-size="15">CORS + pipeline</text>
+    <text x="910" y="298" fill="#3d9cf0" font-size="23" font-weight="700">Sprite + use</text>
+    <text x="910" y="336" fill="#e7eef7" font-size="24" font-weight="600">Icon system</text>
+    <text x="910" y="372" fill="#8b9bb0" font-size="21">shared chrome set</text>
+    <text x="910" y="430" fill="#7fd99a" font-size="20" font-weight="600">one cached sheet</text>
+    <text x="910" y="458" fill="#8b9bb0" font-size="20">CORS + pipeline</text>
   </g>
 </svg>

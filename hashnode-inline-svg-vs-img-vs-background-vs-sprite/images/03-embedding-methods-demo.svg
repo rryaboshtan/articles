@@ -15,10 +15,10 @@
       .title { fill: #eef4fb; font-size: 38px; font-weight: 750; }
       .subtitle { fill: #9fb0c4; font-size: 20px; }
       .card-title { fill: #eef4fb; font-size: 24px; font-weight: 700; }
-      .meta { fill: #9fb0c4; font-size: 17px; }
-      .stage-text { fill: #bdcada; font-size: 17px; }
-      .chip { font-size: 14px; font-weight: 700; }
-      .summary { fill: #cbd8e8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 19px; }
+      .meta { fill: #9fb0c4; font-size: 22px; }
+      .stage-text { fill: #bdcada; font-size: 22px; }
+      .chip { font-size: 18px; font-weight: 700; }
+      .summary { fill: #cbd8e8; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 23px; }
     </style>
   </defs>
 
@@ -27,7 +27,7 @@
   <circle cx="40" cy="880" r="145" fill="#7fd99a" fill-opacity=".06"/>
 
   <g class="ui">
-    <text x="48" y="62" fill="#7f91a8" font-size="17" font-weight="700" letter-spacing="2.2">SVG EMBEDDING</text>
+    <text x="48" y="62" fill="#7f91a8" font-size="20" font-weight="700" letter-spacing="2.2">SVG EMBEDDING</text>
     <text x="48" y="112" class="title">Pick by purpose, not habit</text>
     <text x="48" y="148" class="subtitle">Inline / component  ·  &lt;img&gt;  ·  CSS background  ·  sprite</text>
 
@@ -38,7 +38,7 @@
     <rect x="72" y="278" width="488" height="86" rx="10" fill="#111923" stroke="#304258"/>
     <rect x="94" y="300" width="128" height="44" rx="9" fill="#293a4f" stroke="#43617e"/>
     <path d="M112 312h10l2 4h7v3h-26v-3h7l2-4zm2 11h4v14h-4v-14zm7 0h4v14h-4v-14zm-14 0h4v14h-4v-14z" fill="#eef4fb"/>
-    <text x="144" y="328" fill="#eef4fb" font-size="17" font-weight="700">Delete</text>
+    <text x="144" y="328" fill="#eef4fb" font-size="20" font-weight="700">Delete</text>
     <text x="244" y="327" class="stage-text">currentColor follows the button</text>
     <rect x="72" y="382" width="92" height="28" rx="14" fill="#203d32"/>
     <text x="118" y="401" text-anchor="middle" fill="#7fd99a" class="chip">Theming</text>
