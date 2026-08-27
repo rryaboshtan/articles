@@ -7,31 +7,32 @@
 
   <g font-family="Inter, Segoe UI, Arial, sans-serif">
     <g transform="translate(54 150)">
-      <rect width="190" height="148" rx="12" fill="#202d3d" stroke="#33465c"/>
+      <rect width="190" height="170" rx="12" fill="#202d3d" stroke="#33465c"/>
       <text x="24" y="42" fill="#e6c07b" font-size="20" font-weight="700">1</text>
       <text x="24" y="78" fill="#eef4fb" font-size="22" font-weight="600">Upload</text>
-      <text x="24" y="108" fill="#9fb0c4" font-size="20">Treat it as untrusted</text>
-      <text x="24" y="130" fill="#9fb0c4" font-size="20">input.</text>
+      <text x="24" y="108" fill="#9fb0c4" font-size="20">Treat as</text>
+      <text x="24" y="130" fill="#9fb0c4" font-size="20">untrusted input.</text>
     </g>
     <path d="M258 224h54" stroke="#7fd99a" stroke-width="3"/><path d="M304 216l12 8-12 8" fill="none" stroke="#7fd99a" stroke-width="3"/>
     <g transform="translate(336 150)">
-      <rect width="214" height="148" rx="12" fill="#202d3d" stroke="#33465c"/>
+      <rect width="214" height="170" rx="12" fill="#202d3d" stroke="#33465c"/>
       <text x="24" y="42" fill="#e6c07b" font-size="20" font-weight="700">2</text>
       <text x="24" y="78" fill="#eef4fb" font-size="22" font-weight="600">Inspect</text>
-      <text x="24" y="108" fill="#9fb0c4" font-size="20">Reject scripts, handlers,</text>
-      <text x="24" y="130" fill="#9fb0c4" font-size="20">foreignObject.</text>
+      <text x="24" y="108" fill="#9fb0c4" font-size="20">Reject scripts,</text>
+      <text x="24" y="130" fill="#9fb0c4" font-size="20">handlers,</text>
+      <text x="24" y="152" fill="#9fb0c4" font-size="20">foreignObject.</text>
     </g>
     <path d="M564 224h54" stroke="#7fd99a" stroke-width="3"/><path d="M610 216l12 8-12 8" fill="none" stroke="#7fd99a" stroke-width="3"/>
     <g transform="translate(650 150)">
-      <rect width="214" height="148" rx="12" fill="#202d3d" stroke="#33465c"/>
+      <rect width="214" height="170" rx="12" fill="#202d3d" stroke="#33465c"/>
       <text x="24" y="42" fill="#e6c07b" font-size="20" font-weight="700">3</text>
       <text x="24" y="78" fill="#eef4fb" font-size="22" font-weight="600">Sanitize</text>
-      <text x="24" y="108" fill="#9fb0c4" font-size="20">Use an allowlist and</text>
-      <text x="24" y="130" fill="#9fb0c4" font-size="20">keep it tested.</text>
+      <text x="24" y="108" fill="#9fb0c4" font-size="20">Use an allowlist</text>
+      <text x="24" y="130" fill="#9fb0c4" font-size="20">and test it.</text>
     </g>
     <path d="M878 224h54" stroke="#7fd99a" stroke-width="3"/><path d="M924 216l12 8-12 8" fill="none" stroke="#7fd99a" stroke-width="3"/>
     <g transform="translate(964 150)">
-      <rect width="182" height="148" rx="12" fill="#203d32" stroke="#4d8060"/>
+      <rect width="182" height="170" rx="12" fill="#203d32" stroke="#4d8060"/>
       <text x="24" y="42" fill="#7fd99a" font-size="20" font-weight="700">4</text>
       <text x="24" y="78" fill="#eef4fb" font-size="22" font-weight="600">Preview</text>
       <text x="24" y="108" fill="#b9d7c0" font-size="20">Prefer &lt;img&gt; for</text>

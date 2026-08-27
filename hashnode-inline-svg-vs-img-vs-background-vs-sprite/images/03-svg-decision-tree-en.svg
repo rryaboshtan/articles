@@ -52,11 +52,12 @@
 
     <path d="M 586 411 H 658" stroke="#6f8299" stroke-width="3" marker-end="url(#arrow)"/>
     <text x="614" y="395" fill="#7fd99a" font-size="20" font-weight="700">YES</text>
-    <rect x="680" y="330" width="464" height="166" rx="18" fill="url(#answer)" stroke="#356592"/>
+    <rect x="680" y="330" width="464" height="190" rx="18" fill="url(#answer)" stroke="#356592"/>
     <text x="710" y="370" fill="#55adf7" font-size="21" font-weight="700">Use DOM-accessible SVG</text>
-    <text x="710" y="405" fill="#d6e2ef" font-size="21">One-off UI element &#x2192; inline or component</text>
-    <text x="710" y="437" fill="#d6e2ef" font-size="21">Shared on most routes &#x2192; sprite</text>
-    <text x="710" y="469" fill="#d6e2ef" font-size="21">Route-specific sets &#x2192; tree-shaken components</text>
+    <text x="710" y="405" fill="#d6e2ef" font-size="21">One-off UI &#x2192; inline or component</text>
+    <text x="710" y="437" fill="#d6e2ef" font-size="21">Shared routes &#x2192; sprite</text>
+    <text x="710" y="469" fill="#d6e2ef" font-size="21">Route-specific &#x2192;</text>
+    <text x="710" y="493" fill="#d6e2ef" font-size="21">tree-shaken components</text>
 
     <path d="M 320 474 V 548" stroke="#6f8299" stroke-width="3" marker-end="url(#arrow)"/>
     <text x="334" y="515" fill="#7fd99a" font-size="20" font-weight="700">NO</text>
@@ -71,8 +72,8 @@
     <text x="614" y="606" fill="#7fd99a" font-size="20" font-weight="700">YES</text>
     <rect x="680" y="558" width="464" height="128" rx="18" fill="url(#answer)" stroke="#3c7552"/>
     <text x="710" y="600" fill="#7fd99a" font-size="21" font-weight="700">Use &lt;img&gt;</text>
-    <text x="710" y="634" fill="#d6e2ef" font-size="21">Add descriptive alt text and explicit dimensions.</text>
-    <text x="710" y="661" fill="#9fb1c5" font-size="20">Use empty alt only when the image is truly decorative.</text>
+    <text x="710" y="634" fill="#d6e2ef" font-size="21">Add descriptive alt and dimensions.</text>
+    <text x="710" y="661" fill="#9fb1c5" font-size="20">Empty alt only for decoration.</text>
 
     <path d="M 320 678 V 752" stroke="#6f8299" stroke-width="3" marker-end="url(#arrow)"/>
     <text x="334" y="719" fill="#7fd99a" font-size="20" font-weight="700">NO</text>
@@ -87,15 +88,15 @@
     <text x="614" y="810" fill="#7fd99a" font-size="20" font-weight="700">YES</text>
     <rect x="680" y="752" width="220" height="148" rx="18" fill="url(#answer)" stroke="#3c7552"/>
     <text x="708" y="794" fill="#7fd99a" font-size="20" font-weight="700">CSS background</text>
-    <text x="708" y="828" fill="#d6e2ef" font-size="20">or CSS mask for a</text>
-    <text x="708" y="854" fill="#d6e2ef" font-size="20">monochrome element</text>
+    <text x="708" y="828" fill="#d6e2ef" font-size="20">or CSS mask for</text>
+    <text x="708" y="854" fill="#d6e2ef" font-size="20">a mono glyph</text>
 
     <path d="M 900 826 H 930" stroke="#6f8299" stroke-width="3" marker-end="url(#arrow)"/>
     <text x="905" y="810" fill="#e6c07b" font-size="20" font-weight="700">NO</text>
     <rect x="950" y="752" width="194" height="148" rx="18" fill="#332a24" stroke="#9c7044"/>
     <text x="976" y="794" fill="#f0c98a" font-size="19" font-weight="700">Clarify the</text>
     <text x="976" y="820" fill="#f0c98a" font-size="19" font-weight="700">requirement</text>
-    <text x="976" y="856" fill="#d9c7ac" font-size="20">This is not an SVG</text>
-    <text x="976" y="879" fill="#d9c7ac" font-size="20">embedding problem yet.</text>
+    <text x="976" y="856" fill="#d9c7ac" font-size="20">Not an SVG</text>
+    <text x="976" y="879" fill="#d9c7ac" font-size="20">embedding issue.</text>
   </g>
 </svg>

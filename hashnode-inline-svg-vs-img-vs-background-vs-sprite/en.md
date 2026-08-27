@@ -224,6 +224,8 @@ Gzip and Brotli reduce the transfer cost of duplication. They do **not** elimina
 
 In SSR and SPA stacks, the cost often appears twice: once in the HTML or JavaScript payload, and again when the client hydrates. An illustration that seemed harmless as inline JSX on a marketing page can dominate LCP and hydration time as the page evolves. Prefer `<img>` (or a lazy-loaded image) for large artwork even when the rest of the UI uses components.
 
+![Where SVG performance costs appear: inline markup, cached image files, and oversized icon imports](./images/06-svg-performance-cost.svg)
+
 As a rough starting point, **15–20 KB** of UI icons on a screen is usually harmless when the icons are inline or component-based. Once dozens of icons are shared across routes, use a sprite or tree-shaken components, and avoid `import * as Icons`. Illustrations above roughly **10–15 KB** are usually better served through `<img>`, preferably from a CDN, than bundled into JSX. These are starting points, not laws. The production build gets the final vote.
 
 ### How to measure SVG performance in fifteen minutes
