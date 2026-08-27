@@ -8,11 +8,11 @@ description: "Choose how to embed SVG based on its purpose: inline or components
 
 Teams rarely argue about SVG itself. The argument is usually about **how to put it on the page**. Make that decision once in a hurry and it can hang around for several release cycles.
 
-The usual problems are easy to recognize. Forty icons get inlined into a React bundle “for control”. Another set is loaded through `<img>`, then someone discovers that dark mode cannot recolor it. A delete button ends up as a `background-image`, so a screen reader has nothing useful to announce. Later, a user uploads an SVG containing `<script>` and the harmless-looking shortcut becomes a security issue. If you want to inspect an SVG before choosing an embedding method, [getsvgeditor.com](https://getsvgeditor.com) is a convenient source-and-preview workflow.
+The usual problems are easy to recognize. Forty icons get inlined into a React bundle “for control”. Another set is loaded through `<img>`, then someone discovers that dark mode cannot recolor it. A delete button ends up as a `background-image`, so a screen reader has nothing useful to announce. Later, a user uploads an SVG containing `<script>` and the harmless-looking shortcut becomes a security issue. Before choosing an embedding method, inspect the file itself. A stray bitmap, hardcoded fill, or editor-generated title can matter more than the tag you pick.
 
-**Short answer:** use inline SVG, a component, or a sprite for themed interactive UI. Use `<img>` for logos and larger illustrations. Use a CSS background for decoration. Treat uploaded SVG as untrusted input: sanitize it, and never inline its raw markup.
+The short version is simple. Use inline SVG, a component, or a sprite for themed interactive UI. Use `<img>` for logos and larger illustrations. Use a CSS background for decoration. Treat uploaded SVG as untrusted input: sanitize it, and never inline its raw markup.
 
-The rest of this article is the decision framework behind that sentence — how **inline SVG**, the `<img>` **tag**, **CSS** `background-image`, and **SVG sprites** (plus tree-shaken components) trade off styling, caching, accessibility, security, and bundle weight.
+The details are where the trade-offs live. The sections below compare **inline SVG**, the `<img>` **tag**, **CSS** `background-image`, and **SVG sprites**, including tree-shaken components, across styling, caching, accessibility, security, and bundle weight.
 
 > Pick by the *job* of the graphic, not by the technique you used on the last project.
 
@@ -22,7 +22,7 @@ The rest of this article is the decision framework behind that sentence — how 
 
 ## How to choose an SVG embedding method
 
-Before asking “inline or sprite?”, start with a product question:
+Before asking “inline or sprite?”, ask a product question:
 
 > **What job does this graphic do in the interface?**
 
@@ -34,19 +34,19 @@ Before asking “inline or sprite?”, start with a product question:
 | Is a reusable icon language across the product | Sprite **or** tree-shaken components |
 | Is user-supplied or otherwise untrusted | Sanitize and provide a safe preview; never inline raw markup |
 
-If the team debates *technique* before agreeing on the graphic’s *job*, the same bugs come back under different ticket titles. This is what the four choices look like next to each other:
+If the team debates *technique* before agreeing on the graphic’s *job*, the same bugs return under different ticket titles. Here are the four options side by side:
 
 ![Four SVG embedding approaches shown side by side: inline SVG, img, CSS background, and SVG sprite](./images/03-embedding-methods-demo.svg)
 
 ---
 
-## Why teams keep arguing about inline SVG vs img
+## Why the choice keeps coming up
 
-The conversation usually starts with a deceptively simple question: should this icon or illustration live in JSX, load through `<img>`, sit in CSS, or go into a sprite?
+The question sounds simple: should this icon or illustration live in JSX, load through `<img>`, sit in CSS, or go into a sprite?
 
-Then the familiar problems pile up. Design hands over forty SVGs full of editor metadata. Engineering inlines all of them. The main chunk grows, although half the icons are not used on the route that ships them. Theme tokens cannot recolor paths locked to `#111827`. Assistive technology announces “Layer 1, Group, Vector”. And one “harmless” illustration contains a script.
+Then the familiar problems pile up. Design hands over forty SVGs full of editor metadata, and engineering inlines all of them. The main chunk grows even though half the icons are not used on the route that ships them. Theme tokens cannot recolor paths locked to `#111827`; assistive technology announces “Layer 1, Group, Vector”; and one “harmless” illustration contains a script.
 
-SVG itself is not the problem. **Different embedding methods solve different jobs**, and habit is a poor way to choose between them. [MDN’s SVG overview](https://developer.mozilla.org/en-US/docs/Web/SVG) is a useful reminder that SVG is both an image *and* a document. The embedding method decides which side of that description matters in the browser.
+SVG itself is not the problem. **Different embedding methods solve different jobs**, and habit is a poor selection rule. [MDN’s SVG overview](https://developer.mozilla.org/en-US/docs/Web/SVG) makes the important distinction: SVG is both an image *and* a document. The embedding method determines which side of that description matters in the browser.
 
 ---
 
@@ -54,13 +54,13 @@ SVG itself is not the problem. **Different embedding methods solve different job
 
 ![SVG embedding decision tree: sanitize untrusted files, use inline SVG or components for interactive UI, img for meaningful content, and CSS backgrounds for decoration](./images/02-svg-decision-tree-en.svg)
 
-Keep this nearby. It is useful when a pull request turns into a debate about personal preference instead of requirements.
+The tree is worth keeping near the project. It is more useful than personal preference when a pull request turns into an embedding debate.
 
 ![The accessibility boundary for SVG: name the button, describe meaningful images, hide decoration](./images/04-svg-accessibility-boundary.svg)
 
 ---
 
-## Four ways to embed SVG
+## The four options
 
 ### Inline SVG for themed UI icons
 
@@ -76,9 +76,9 @@ Inline means the markup lives in the HTML or JSX tree, so page CSS and JavaScrip
 
 You get full style control: [`currentColor`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#currentcolor_keyword), CSS variables, hover and active states, even per-path animation. Accessibility can be precise too. Hide the glyph and name the control. There is no extra network request per icon once the document or bundle is loaded.
 
-The trade-offs become apparent at scale. Dozens of large files inflate HTML and JavaScript. They are cached with the document or JS chunk rather than independently as hashed `.svg` files on a CDN. XSS risk also rises sharply when untrusted SVG is inserted as HTML.
+At small scale this is hard to notice. At larger scale, dozens of big files inflate HTML and JavaScript. They are cached with the document or JS chunk rather than independently as hashed `.svg` files on a CDN. XSS risk also rises sharply when untrusted SVG is inserted as HTML.
 
-**Use it for** UI icons that must follow the application theme, change color, and respond to state.
+This makes inline SVG a good fit for UI icons that follow the application theme, change color, or respond to state.
 
 A modern alternative is to import **SVGs as React components** using [SVGR](https://react-svgr.com/), Vite’s `?react` query, or a similar build plugin. This provides the same styling control as inline SVG while importing only what each route needs. Tree-shaking is usually more efficient than bundling one large sprite, although a separate hashed `.svg` file generally benefits more from HTTP caching. Treat components as **inline SVG with a build step**, not as a fundamentally separate embedding method.
 
@@ -123,13 +123,13 @@ That pattern aligns with the [ARIA Authoring Practices](https://www.w3.org/WAI/A
 <img src="/icons/logo.svg" width="120" height="32" alt="Acme" decoding="async" />
 ```
 
-This is the straightforward, reliable choice for a great deal of production work. The behavior is easy to understand, browser and CDN caching are excellent, and scripts inside the SVG generally do not run in the document context. That isolation is useful even when you own the file but do not want its markup in the DOM tree.
+For many production assets, this is the least surprising choice. The browser and CDN can cache the file independently, and scripts inside the SVG generally do not run in the document context. That isolation is useful even when you own the file but do not want its markup in the DOM tree.
 
 The main limitation is control over the file’s contents. Page CSS almost never styles internal paths, and `currentColor` does not propagate inward. Accessibility is also less flexible for icon buttons because you are working with an image rather than individual SVG elements in the DOM.
 
 A partial recoloring workaround exists: CSS `filter` or [`mask-image`](https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image) can tint a monochrome glyph. This works for a single accent color but is brittle for multicolor artwork or multiple themes. If color is a product requirement, prefer inline SVG or a sprite.
 
-**Use it for** logos, article figures, and static illustrations. Skip `<object>` and `<embed>` for ordinary icons: they add complexity and unusual focus behavior with little practical benefit. MDN’s notes on [embedding vector graphics in HTML](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Including_vector_graphics_in_HTML) are worth reading if someone on the team still recommends those tags by default.
+That makes `<img>` the sensible default for logos, article figures, and static illustrations. Skip `<object>` and `<embed>` for ordinary icons. They add complexity and unusual focus behavior with little practical benefit. MDN’s notes on [embedding vector graphics in HTML](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Including_vector_graphics_in_HTML) are useful if someone on the team still recommends those tags by default.
 
 ---
 
@@ -150,11 +150,11 @@ A partial recoloring workaround exists: CSS `filter` or [`mask-image`](https://d
 }
 ```
 
-Backgrounds keep HTML uncluttered and are cached like any other image referenced from CSS. They are ideal when a graphic is decorative rather than meaningful.
+Backgrounds keep HTML uncluttered and are cached like other images referenced from CSS. They work well when a graphic is decorative rather than meaningful.
 
-They are also invisible to assistive technology by default, offer limited control over SVG internals, and contribute nothing as content for search. That is exactly right for decoration. Here is the practical test: if removing the graphic would change what the UI *means*, it does not belong in a background.
+They are also invisible to assistive technology by default, offer little control over SVG internals, and do not contribute page content for search. That is exactly right for decoration. A useful test is to remove the graphic mentally. If doing so changes what the UI *means*, it does not belong in a background.
 
-**Use it for** purely decorative flourishes. Do not use it for controls.
+Use backgrounds for decorative flourishes, never for controls.
 
 ---
 
@@ -173,13 +173,13 @@ They are also invisible to assistive technology by default, offer limited contro
 </svg>
 ```
 
-A sprite gives you one file for a shared icon set, reduces duplication in the markup, and supports reliable `currentColor` theming when its symbols are built correctly. For a design system that uses the same icons on most screens, it remains a strong option rather than merely a legacy technique.
+A sprite puts a shared icon set in one file, reduces duplicated markup, and supports reliable `currentColor` theming when its symbols are built correctly. If a design system uses the same icons on most screens, a sprite is still a practical option. It is not just a legacy technique.
 
-It does require a build pipeline and a consistent process for cleaning Figma exports. External [`<use>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use) also has CORS, caching, and styling quirks. An uncurated sprite quickly becomes difficult for the entire team to maintain.
+The catch is the build pipeline and the ongoing cleanup of Figma exports. External [`<use>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use) also has CORS, caching, and styling quirks. Without curation, a sprite quickly becomes difficult for the whole team to maintain.
 
-**Use it when** consistency and reuse across the product matter more than per-route tree-shaking.
+Choose a sprite when consistency and reuse across the product matter more than per-route tree-shaking.
 
-One detail is easy to miss: a sprite is an asset pipeline, not just an SVG file with a lot of symbols. Someone has to decide which symbols are public, keep IDs stable, remove editor leftovers, and check that the output still works from the URL where it is served. If that work has no owner, the sprite will eventually become a drawer full of abandoned icons.
+A sprite is more than an SVG file with a lot of symbols. Someone needs to decide which symbols are public, keep IDs stable, remove editor leftovers, and check the served output. Without an owner for that work, the sprite eventually turns into a drawer full of abandoned icons.
 
 #### SVG sprite vs React SVG components
 
@@ -212,7 +212,7 @@ For example, suppose a “convenience” `import * as Icons` barrel adds about *
 
 ## SVG file size, caching, and bundle impact
 
-These are typical ranges, so measure your own build. Unoptimized exports often affect the results more than the embedding method itself.
+These ranges are only starting points. In practice, an unoptimized export often matters more than the embedding method.
 
 | Asset | Optimized size | Unoptimized Figma export | If you inline 40 of them |
 |---|---|---|---|
@@ -220,13 +220,13 @@ These are typical ranges, so measure your own build. Unoptimized exports often a
 | Small illustration | **5–25 KB** | **40–150 KB** | Fine as `<img>`; costly when bundled with JavaScript |
 | Logo (simple paths) | **1–4 KB** | **10–40 KB** | `<img>` or one shared inline instance |
 
-Gzip and Brotli reduce the transfer cost of duplication. They do **not** eliminate parsing overhead, hydration cost, or the cost of shipping icons that a route never uses.
+Gzip and Brotli reduce the transfer cost of duplicated markup. They do **not** remove parsing and hydration work, or make it worthwhile to ship icons that a route never uses.
 
 In SSR and SPA stacks, the cost often appears twice: once in the HTML or JavaScript payload, and again when the client hydrates. An illustration that seemed harmless as inline JSX on a marketing page can dominate LCP and hydration time as the page evolves. Prefer `<img>` (or a lazy-loaded image) for large artwork even when the rest of the UI uses components.
 
 ![Where SVG performance costs appear: inline markup, cached image files, and oversized icon imports](./images/06-svg-performance-cost.svg)
 
-As a rough starting point, **15–20 KB** of UI icons on a screen is usually harmless when the icons are inline or component-based. Once dozens of icons are shared across routes, use a sprite or tree-shaken components, and avoid `import * as Icons`. Illustrations above roughly **10–15 KB** are usually better served through `<img>`, preferably from a CDN, than bundled into JSX. These are starting points, not laws. The production build gets the final vote.
+As a rough starting point, **15–20 KB** of UI icons on one screen is usually harmless when the icons are inline or component-based. Once dozens of icons are shared across routes, use a sprite or tree-shaken components, and avoid `import * as Icons`. Illustrations above roughly **10–15 KB** are usually better served through `<img>`, preferably from a CDN, than bundled into JSX. Treat those numbers as prompts to measure, not as laws. The production build gets the final vote.
 
 ### How to measure SVG performance in fifteen minutes
 
@@ -246,7 +246,7 @@ CSS `mask-image` is excellent for one monochrome glyph but a poor strategy for e
 
 Sanitize user-uploaded SVG before inserting its markup into the DOM. Prefer `<img src="blob:…">` when you only need to display the file. If you must render the markup in the DOM, allowlist elements and attributes: no `script`, no event handlers, and no unintended external resource loads. In practice, use a maintained sanitizer such as [DOMPurify](https://github.com/cure53/DOMPurify) configured for SVG, plus tests verifying that `onload` and `foreignObject` are blocked. The [OWASP guidance on preventing XSS](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) still applies; SVG is another potential XSS vector.
 
-The safe path is deliberately boring:
+For uploads, the workflow should be unremarkable:
 
 ![A safer SVG upload path: inspect, sanitize, preview as an image, and only then render trusted markup](./images/05-svg-upload-safety.svg)
 
@@ -329,7 +329,7 @@ If the graphic communicates information that a crawler or reader needs, treat it
 
 ---
 
-## Common myths about SVG sprites, inline SVG, and img
+## A few things teams get wrong
 
 Sprites are not outdated simply because components exist. Components are better suited to tree-shaking, while sprites remain effective when most screens share one cached set. `<img>` can be accessible with descriptive `alt` text or an accessible name on its parent control. Inline SVG is not always the fastest option: zero additional requests does not guarantee the smallest JavaScript payload, and hydration and main-thread parsing still matter. Running SVGO once during export is not enough; without CI checks, unoptimized files will soon re-enter the codebase. Icon fonts still create accessibility, theming, and ligature problems, so the advantages that made SVG preferable for UI still apply. And “it renders” does not mean that it is themeable, cacheable, or safe.
 
@@ -344,7 +344,7 @@ Sometimes the embedding debate is a distraction. If the asset format is wrong, c
 
 
 
-## Practical examples: which SVG method to use
+## What I would use in practice
 
 **Delete button.** Use inline SVG, a sprite, or a component with `currentColor`, and give the button an accessible name. Do not use `background-image`.
 
@@ -362,9 +362,9 @@ Sometimes the embedding debate is a distraction. If the asset format is wrong, c
 
 ---
 
-## A practical SVG embedding checklist
+## Before it goes into production
 
-Before merging, you should be able to answer these questions: What purpose does the graphic serve? Is it part of the UI, meaningful content, or decoration? Must it change with the theme or interaction state? Is it a single asset or part of an icon system? Is it trusted or user-supplied? Is the accessible name applied to the correct element? Have `Layer_1` and other editor metadata been removed? Is a large illustration unnecessarily bundled with JavaScript? Does the sprite’s `<use>` reference point to a same-origin resource, with `currentColor` already applied inside the symbols? Can you show the before-and-after bundle sizes in the report?
+Before merging, answer these without hand-waving. What job does the graphic do? Is it UI, content, or decoration? Does it need to follow a theme or interaction state? Is it one asset or part of an icon system? Is it trusted? Does the accessible name sit on the right element? Have `Layer_1` and the other editor leftovers gone? Is a large illustration being bundled into JavaScript? Does the sprite use a same-origin `<use>` reference with `currentColor` applied inside the symbols? Can you show the before-and-after bundle sizes?
 
 | Job | Method |
 |---|---|
@@ -379,6 +379,6 @@ Before merging, you should be able to answer these questions: What purpose does 
 
 ## Inspect the markup before choosing an embedding method
 
-Applying the wrong embedding method to an unoptimized file lets the underlying problems survive into production. Open the source first. Check the `viewBox`, leftover layers, scripts, hardcoded fills, and file size before debating components versus sprites.
+An embedding choice cannot fix a bad export. Open the source first and check the `viewBox`, leftover layers, scripts, hardcoded fills, and file size before debating components versus sprites.
 
 For a quick manual pass, paste an SVG into [getsvgeditor.com](https://getsvgeditor.com). It is often faster to spot a stray bitmap or a `fill="#111827"` there than to debug a theme failure in the browser.
