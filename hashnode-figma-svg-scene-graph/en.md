@@ -1,26 +1,31 @@
 ---
-title: 'Figma SVG Looks Empty, Shifted, or Clipped: Inspect the Scene'
+title: 'Why Figma SVG Icons Disappear in the Browser'
 slug: figma-svg-empty-shifted-clipped
-description: 'Figma SVG path data is usually fine. Empty, shifted, or clipped icons come from Clip content, nested translate, and an artboard viewBox. Inspect source next to preview.'
+description: 'A field note on the Figma SVG exports that look empty, land in a corner, or lose their strokes in the browser.'
 ---
 
-# Figma SVG Looks Empty, Shifted, or Clipped: Inspect the Scene
+# Why Figma SVG Icons Disappear in the Browser
 
-You copy an icon from Figma. The path looks complete in the layers panel. In the browser it is gone, stuck in the wrong corner, or clipping its own stroke. The ticket says “broken SVG.” The file is almost never missing geometry. Figma exported a **scene graph** — frames, clips, and page-space transforms — and the browser is drawing that scene faithfully.
+This usually starts with a perfectly ordinary message: “Can you export this icon from Figma?” Someone copies it, opens the file in a browser, and gets nothing. Or a tiny mark in the middle of a huge white rectangle. Or a line with one end missing.
 
-Figma’s canvas is a layout engine. SVG is a document: user space defined by `viewBox`, then a clip stack, then a viewport. The exporter serializes _how the canvas composed the layer_, not the 24px glyph you meant. CSS cannot invent a crop. Neither can React. Camel-casing `clip-path` still paints an empty box. If you want to compare the source with a live preview while you investigate, [SVG Editor](https://getsvgeditor.com) puts both side by side.
+Then we blame CSS. I have done that too. The path is often fine. The awkward part is everything Figma wrapped around it: a Frame, a clip, a transform that remembers the icon's position on the page, and a `viewBox` that belongs to the artboard rather than the glyph. I normally keep the XML and a browser preview next to each other; [getsvgeditor.com](https://getsvgeditor.com) works fine for this.
 
-**Short version:** if the `d` attribute is there, stop restyling the component. Open the XML. Empty usually means `clipPath` or `mask`. Shifted usually means nested `transform`. A postage stamp in a white field usually means you exported a Frame the size of the artboard. Hairlines that vanish at the box edge are often `overflow: hidden` plus a Frame clip, not a thin `stroke-width`. A file that looks perfect as `<img src>` and dies when inlined is a different failure — duplicate `id`s.
+Figma is a layout tool. SVG is a document with its own coordinate system. `viewBox` sets that system, clips cut it down, and only then does the browser put it in the viewport. The exporter records how the layer was assembled on the canvas. It does not know that you wanted a portable 24px glyph.
 
-Size tokens and embedding methods only make sense **after** the file is honest. This piece is the first inspection: does the document still describe a page?
+That difference explains most of the “broken SVG” tickets I see. CSS cannot repair a wrong coordinate system. React cannot repair it either. Renaming `clip-path` to `clipPath` is necessary in JSX, but it does not make an empty clip useful.
+
+My first rule is simple: if the `d` attribute exists, do not start by restyling the component. Read the XML. Empty usually means `clipPath` or `mask`; a shifted icon usually has a nested `transform`; the postage stamp usually lives in an artboard-sized Frame. A missing hairline is often `overflow: hidden`, not a stroke that needs to be thicker. If the file works as `<img src>` but fails when inlined, check duplicate `id`s.
+
+Forget size tokens for a minute. The useful question is less impressive: does this document describe an icon, or is it still describing the page it came from?
 
 ![The path data is fine; clipPath, translate, and viewBox from Figma make the preview look broken](./images/01-path-fine-scene-lies.svg)
 
-## Figma does not export an icon. It exports a scene
+## The file contains more than the drawing
 
 On the canvas you selected a 24×24 component. The SVG you downloaded is closer to a snapshot of how Figma _composed_ that component: a Frame, maybe a clip matching the Frame, groups that remember where the instance sat on the page, `defs` for filters you cannot see at 24px, and a root `viewBox` that still thinks in artboard coordinates.
 
-A typical “simple” chevron arrives looking like this (ids shortened):
+Here is the kind of “simple” chevron that turns up in a code review (ids
+shortened):
 
 ```xml
 <svg width="1440" height="900" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,13 +42,13 @@ A typical “simple” chevron arrives looking like this (ids shortened):
 </svg>
 ```
 
-Nothing in that file is “corrupt.” The path is a chevron. The rest is **where Figma thought the chevron lived**. Drop this into a 24px button and you get a blank or a speck. Drop it into a hero and you get a tiny mark in the middle of a billboard. The renderer did what the document asked.
+Nothing in that file is corrupt. The path is a chevron. The rest says where Figma thought the chevron lived. Put it in a 24px button and you get a blank or a speck. Put it in a hero and you get a tiny mark in the middle of a billboard. The renderer is not being clever; it is following the document.
 
 Illustrator and Sketch emit the same kind of file (clip groups, artboards, `Layer_1`). The examples use Figma’s names because that is the usual source.
 
-### Copy as SVG versus Export versus a plugin
+### Three ways to get the same-looking file
 
-These are not the same pipeline, and they do not fail the same way.
+The three export paths are easy to treat as interchangeable. They are not.
 
 **Copy as SVG** (right-click, or the shortcut) serializes the current selection as Figma currently draws it. If the selection is an instance sitting on a page, you often get page-space `translate` and a `viewBox` that still belongs to a parent Frame. If the selection is the 24×24 component Frame itself, Copy is frequently the cleanest of the three — until “Clip content” is on, in which case you still get a `clipPath`.
 
@@ -51,9 +56,9 @@ These are not the same pipeline, and they do not fail the same way.
 
 **Plugins** (SVGO-in-Figma, icon-pipeline plugins, “flatten to outline”) can be better or worse than native export. A plugin that outlines strokes and unions boolean shapes before serializing will save you a week. A plugin that runs a default SVGO preset including `removeViewBox` will give you the 300×150 banner. Inspect the plugin output the same way you inspect native export. Do not trust a checkbox labeled “optimize.”
 
-### Frames, groups, sections, and “Clip content”
+### The Frame is usually the culprit
 
-Figma’s layer types do not map 1:1 onto SVG.
+Figma's layer types do not map cleanly onto SVG. This is where the extra markup usually comes from.
 
 A **Group** is a selection convenience. Export often becomes a `<g>` with no clip and no extra box. Groups are the least surprising parent.
 
@@ -61,52 +66,51 @@ A **Frame** is a layout box. It has a size, optional Auto Layout, optional fill,
 
 A **Section** (the pink organizer) is not a design component. Exporting a section is how you accidentally ship `viewBox="0 0 2400 1600"` with twelve icons inside it.
 
-**Auto Layout** frames add padding as empty space in the box, not as path inset. Export the Auto Layout parent and the `viewBox` includes padding; the glyph looks small. Export the vector child and you may lose the intended 24 grid. The design-system recipe is: a dedicated **icon Frame** at 20 or 24 whose only job is the glyph, Clip content off unless you truly need it, vectors inset by 2 units if strokes need optical padding.
+**Auto Layout** frames add padding as empty space in the box, not as path inset. Export the parent and the `viewBox` includes that padding, so the glyph looks small. Export the vector child and you may lose the intended 24 grid. For icons I tend to use a separate 20 or 24px Frame whose only job is holding the glyph. Clip content stays off unless the crop is intentional. An inset of two units is enough for many strokes; the exact number is less important than not drawing on the edge by accident.
 
 **Absolute position** children inside Auto Layout are the other surprise. On the canvas they sit where you dropped them. In SVG they often become an extra `translate` on a nested group, while siblings stay in flow coordinates. The file matches Figma and looks surprising in a button.
 
-### Component instance versus main component
+### Which component did you actually export?
 
 Exporting an **instance** sometimes includes the instance’s position on the current page. Exporting the **main component** (the source in the components page) more often yields a box that matches the component Frame. If a designer “just copied the icon from the screen we were looking at,” you are looking at instance-on-page coordinates. Ask for export from the component file, or enter the instance and copy only when the selection is the 24 Frame, not the card that contains it.
 
 Variants (Default / Hover / Open) are separate documents. Hover that uses a thicker stroke is a different path, not a CSS `:hover` you get for free from one SVG. Inspect the variant you actually exported; do not assume the default file contains the hover geometry.
 
-### What to treat as ink versus machinery
+### Keep the ink; question the wrappers
 
-| In the file                                                      | Treat as                                                                              |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `path` / `circle` / `rect` / `line` that _draw_ the glyph        | Ink. Keep, then simplify.                                                             |
-| Root `viewBox` that matches the ink bounds (plus optical pad)    | Contract. Keep or recompute once.                                                     |
-| `g transform="translate…"` that only recenters a Frame on a page | Machinery. Flatten or drop.                                                           |
-| `clipPath` that is a copy of the Frame rect                      | Machinery. Drop if the glyph is fully inside.                                         |
-| `mask` from opacity tricks or boolean leftovers                  | Usually machinery for UI glyphs.                                                      |
-| `filter` / blur / drop shadow at icon size                       | Usually machinery. Rarely worth the `fe*` subtree.                                    |
-| `linearGradient` / `radialGradient` that the icon actually uses  | Ink, but ids must be unique if you inline.                                            |
-| `<image href="data:image/png…">`                                 | Not a vector. Wrong format or a flattened effect.                                     |
-| `<text>` / `<tspan>`                                             | Ink only if you ship the font; otherwise outline or it will reflow.                   |
-| `id="Layer_1"`, `<title>Frame 214`                               | Editor labels. Strip for UI icons.                                                    |
-| `fill="#1E1E1E"` on a UI glyph                                   | Product decision, sitting in the same export. Rewrite for theming; leave brand marks. |
+The `path`, `circle`, `rect`, and `line` elements that make up the glyph are the part worth keeping. A root `viewBox` that matches those shapes, with a little optical padding, is the useful size contract.
 
-If you skip this split, theming and `size` debates are noise: you are still arguing about a page, not a glyph. Illustrations may keep a real clip; wordmarks may keep hex. This article assumes a **UI icon** that behaved like a page.
+Most of the surrounding structure is negotiable. A `translate` that only puts a Frame back where it was on the page can be flattened. So can a `clipPath` that is just a copy of the Frame rectangle, provided the icon does not need that crop. UI icons rarely need an opacity `mask` or a blur filter either. I remove those when they are leftovers rather than effects the design actually relies on.
 
-## Match the preview to the node
+There are a few things not to remove blindly. A gradient may be part of the artwork, and its id must be unique when several SVGs are inlined. An embedded `<image>` is a raster image, not a vector version of it. Text needs the font to remain stable; otherwise outline it. Names such as `Layer_1` and `Frame 214` are editor labels, so I usually strip them from UI icons. A hard-coded `fill="#1E1E1E"` is a product choice, not geometry: replace it for theming, but leave brand marks alone.
 
-Do not start with “make `stroke-width` 1.5.” Look at what the file _does_ on screen, then search the markup for the node that would cause that picture. The preview names the bug. The source names the node. You need both at once.
+This distinction matters because otherwise a discussion about theming or component size starts before anyone has established what the file contains. The advice here is for a **UI icon** that accidentally behaved like a page.
+
+## Start with the symptom, then find its node
+
+Do not start with “make `stroke-width` 1.5.” Look at what the file _does_ on screen, then search the markup for the node that could cause that picture. The preview tells you which symptom to investigate; the source tells you where it comes from.
 
 ![Empty, shifted, clipped, and tiny-in-a-field SVG previews map to clipPath, translate, overflow, and artboard viewBox](./images/02-symptom-map.svg)
 
-| What you see                           | Look for first                                             | Do not start with        |
-| -------------------------------------- | ---------------------------------------------------------- | ------------------------ |
-| Completely empty                       | `clip-path`, `mask`, path numbers far outside `viewBox`    | `fill`, theme tokens     |
-| Visible, but in a corner or off-center | `transform="translate("` / `matrix(` on a wrapper `<g>`    | CSS `margin` / `left`    |
-| Shape there, strokes eaten on the edge | Frame `clipPath`, root overflow                            | Thicker `stroke-width`   |
-| Correct drawing, huge empty padding    | `viewBox` is the Frame or page; ink is a small `getBBox()` | Scaling the component up |
-| Soft, photographic                     | `<image href="data:image/png">` or `filter`                | PNG compression          |
-| One bar of a plus/minus missing        | Stroke flush to `x=0`/`24` + `overflow`                    | Deleting the path        |
+For a completely empty preview, search for `clip-path`, `mask`, and path coordinates that sit outside `viewBox`; changing `fill` will not help. If the shape is visible but sits in a corner, inspect `translate` and `matrix` on the wrapper before touching CSS positioning. When a stroke disappears at the edge, check the Frame clip and root overflow before making the stroke thicker.
 
-Paste source and preview together ([SVG Editor](https://getsvgeditor.com) if you have no local file). Search `clip-path`, `mask=`, `translate`, `matrix(`. DevTools last: `$0.getAttribute('viewBox')`, `$0.querySelector('path').getBBox()`. No hit target usually means the clip already ate pointer-events. Issues that only happen with inline SVGs belong in the pass for IDs and SVGO.
+Large empty margins usually mean that `viewBox` describes the Frame or the page while `getBBox()` describes a small glyph. A soft, photographic result usually means `<image href="data:image/png">` or a filter has entered the export. If one bar of a plus or minus is missing, look for a stroke sitting on `x=0` or `x=24` together with overflow clipping. Deleting the path would only hide the symptom.
 
-## Empty: the clip is usually the Frame
+Paste source and preview together ([SVG Editor](https://getsvgeditor.com) if
+you have no local file). I search `clip-path`, `mask=`, `translate`, and
+`matrix(` before opening DevTools. If I do open it, these are the two values I
+care about:
+
+```js
+$0.getAttribute('viewBox')
+$0.querySelector('path').getBBox()
+```
+
+No hit target often means the clip has already eaten the pointer events. A
+problem that appears only after inlining belongs to the IDs/SVGO pass, not this
+one.
+
+## When the preview is empty, look for a clip
 
 Figma Frames clip their children when **Clip content** is enabled. Export keeps that as:
 
@@ -131,7 +135,7 @@ SVG strokes are centered (`stroke-alignment` is not in browsers). A 1.5-unit str
 
 ![A Frame clipPath eats strokes on the box edge; removing the unused clip shows the same path with a full stroke](./images/04-frame-clip.svg)
 
-**What to do:** if the clip rect equals the `viewBox` and you are not actually masking a picture-in-picture, delete the `clip-path` attribute and the unused `clipPath` in `defs`. If a stroke still kisses the boundary, inset the drawing (optical padding on the 24 grid — Material and most icon sets already do this) or set `overflow="visible"` on the root **on purpose**. Do not widen the stroke until you have ruled out clipping.
+If the clip rect equals the `viewBox` and you are not actually masking a picture-in-picture, delete the `clip-path` attribute and the unused `clipPath` in `defs`. If a stroke still kisses the boundary, inset the drawing. Setting `overflow="visible"` on the root is also possible, but do it knowingly: the stroke can then paint into a neighbouring button. Widening the stroke is not the fix for a clip.
 
 Nested clips happen when an icon Frame sits in a card Frame and someone exported the card, or when a vector inside a 16×16 nested Frame is itself clipped. You will see `clip-path` on more than one `<g>`. Delete from the outside in, with the preview visible. The first deletion that restores the glyph is the Frame. The inner one might be load-bearing (a circular crop on an avatar). Stop when you can name why each remaining clip exists.
 
@@ -139,7 +143,7 @@ Nested clips happen when an icon Frame sits in a card Frame and someone exported
 
 `clip-rule` (`nonzero` / `evenodd`) on a clipPath child can punch holes in the clip itself. If a “simple” Frame clip is a path instead of a rect, boolean leftovers may have landed in the clip, not in the glyph. Look at the clipPath contents, not only at the drawing.
 
-## Shifted: nested translate is page coordinates
+## When the icon moves, check the coordinate system
 
 Figma remembers where the instance sat. Export wraps the ink:
 
@@ -155,10 +159,7 @@ The path numbers are local (`0…16`). The **document** is still the desktop. In
 
 ![Artboard viewBox plus translate versus a flattened 24 viewBox that matches the ink](./images/03-nested-translate.svg)
 
-**What to do:** flatten once. Either:
-
-1. Re-export the **component / 24 Frame**, not a selection sitting on a page, or
-2. Bake the translate into the path (flatten in Figma, or a one-off rewrite), then set `viewBox` to the real ink bounds.
+The clean fix is to flatten this once. Re-export the **component / 24 Frame** instead of a selection sitting on a page, or bake the translate into the path (flatten in Figma or do a one-off rewrite) and set `viewBox` to the real ink bounds.
 
 Do not compensate in CSS with `transform: translate(-712px, …)` or `left: -712px`. That number will be different on the next icon, and it will fight `viewBox` scaling.
 
@@ -166,24 +167,17 @@ Do not compensate in CSS with `transform: translate(-712px, …)` or `left: -712
 
 Nested `matrix(a b c d e f)` is the same story with rotation or scale baked in. In SVG the matrix maps user coordinates: `x' = ax + cy + e`, `y' = bx + dy + f`.
 
-| Matrix                           | Meaning                                                                                                                                   |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `1 0 0 1 tx ty`                  | Pure translate. Flatten or drop.                                                                                                          |
-| `-1 0 0 1 tx ty` or `1 0 0 -1 …` | Flip on an axis. Keep the flip in the path or keep a single group, but do not also keep a page translate.                                 |
-| `0 -1 1 0 tx ty` (and cousins)   | 90° rotation. Either outline in Figma so the path is already rotated, or keep one `transform` on the glyph group — not three nested ones. |
-| `sx 0 0 sy 0 0` with `sx` ≠ 1    | Scale that belongs in CSS, not in the icon, unless the drawing is deliberately non-uniform.                                               |
+The identity matrix with a translation, `1 0 0 1 tx ty`, is just a translate; flatten or remove it. A `-1` in the first or fourth position usually means a flip. Keep that flip either in the path or in one group, not together with a page translate. A matrix such as `0 -1 1 0 tx ty` is a 90-degree rotation; outline it in Figma or keep one transform on the glyph group. A scale such as `sx 0 0 sy 0 0` generally belongs in CSS unless the non-uniform drawing is intentional.
 
 Concatenated functions (`translate() rotate()`) apply **right-to-left**; nested `<g>` elements apply inside-out (innermost first). Figma encodes rotate-about-center as translate → rotate → translate. That is valid SVG; flatten in the file so `d` already sits in icon space.
 
 CSS `transform-origin` does not rewrite the SVG `transform` attribute. `getCTM()` is user space → viewport; `getScreenCTM()` includes CSS transforms on ancestors. A large CTM translate after you “tightened `viewBox`” means the glyph is still in page space — and the new viewBox cropped it. That is the empty preview after a fake cleanup.
 
-## Tiny in a field: you exported the artboard
+## When the icon is tiny, the artboard came along
 
 `viewBox="0 0 1440 900"` with a 24px glyph is not a sizing bug in the CSS sense. The contract says the drawing is a whole page. The browser is correct. Tightening `width`/`height` on the `<svg>` just scales the **page**, so the icon stays a speck. `preserveAspectRatio="xMidYMid meet"` will letterbox it politely. `none` will stretch the empty page. Neither gets you the chevron.
 
-How it happens: Export is on a parent Frame; Copy as SVG from a selection that still inherits the parent box; a Section selected; or a component instance copied from a dashboard mock with the parent still in the selection stack.
-
-How you confirm: compare `viewBox` to the ink.
+This happens when Export is attached to a parent Frame, when Copy as SVG still inherits that parent's box, when a Section is selected, or when somebody copies an instance from a dashboard mock with the parent still in the selection stack. The quickest confirmation is to compare `viewBox` with the ink.
 
 ```js
 const svg = document.querySelector('svg');
@@ -201,21 +195,15 @@ Recompute from ink (padded) or re-export the icon Frame. Tight box vs CSS is [vi
 
 No `viewBox`: `<img>` and `background-image` are replaced elements. HTML’s fallback intrinsic size is **300×150**. The glyph was not empty; the size mapping was gone. Restore `viewBox` from ink. Do not invent `0 0 24 24` if bbox is `0 0 20 20`.
 
-## Clipped hairline: overflow, not stroke
+## When a hairline disappears, check the box
 
-Same geometry, different host: standalone SVG `overflow` on `:root` is typically visible; **inline** `svg:not(:root)` is `hidden` in the HTML user-agent stylesheet. A 1.5 stroke on `x=0`/`24` is half outside the viewport box. Check, in order:
-
-1. Frame `clipPath` (Clip content).
-2. Nested clip on an inner Frame.
-3. Computed `overflow` on the `<svg>` (inline vs file).
-4. Figma inside/outside stroke (SVG has center only — see the inlining article).
-5. `shape-rendering="crispEdges"` — snaps to the pixel grid; hairlines vanish on odd device pixels.
+Same geometry, different host: standalone SVG `overflow` on `:root` is typically visible; **inline** `svg:not(:root)` is `hidden` in the HTML user-agent stylesheet. A 1.5 stroke on `x=0`/`24` is half outside the viewport box. I check the Frame `clipPath`, then any clip on an inner Frame, then the computed `overflow` on the `<svg>`. After that I look at Figma's inside/outside stroke setting (SVG has center alignment only) and finally `shape-rendering="crispEdges"`, which can make a hairline disappear on an odd device pixel.
 
 Optical padding inside a 24 grid is cheaper than a special-case stroke on one icon. A practical grid: glyph in 20×20, centered in 24, so a 2-unit stroke never sits on the root edge. If the set is 16px (small toolbar), the pad is 1.5–2 and the stroke is 1.25–1.5 in user units — still not flush to 0.
 
 `overflow="visible"` is a valid fix when the set is already drawn to the box and you cannot re-pad eighty icons this week. It is a product decision: visible overflow can paint into adjacent buttons. Prefer padding when you can.
 
-## Export settings, hidden layers, and why Figma’s preview is not the browser
+## The export panel does not tell the whole story
 
 The right-sidebar **Export** panel has a few checkboxes that change the document you inspect. They are easy to miss because the canvas looks the same.
 
@@ -233,7 +221,7 @@ Hidden layers (`visible: false` in Figma) sometimes still serialize, sometimes n
 
 **Why Figma looks right.** Figma’s renderer is not a browser. Inside/outside strokes, background blur, missing fonts (Figma has the file), blend modes against the grey canvas, and Clip content as a _canvas_ feature all look correct there. The SVG is a lossy projection into a different engine. “But it looks fine in Figma” is not evidence that the XML is an icon document. It is evidence that the canvas scene is fine. Those are different artifacts. Paste the XML into a browser preview; that is the only preview that counts for shipping.
 
-## Two more exports you will actually see
+## Two less obvious cases
 
 The chevron at the top is the page-translate case. These two show up just as often.
 
@@ -273,17 +261,15 @@ The line `y=8` with stroke 2 in the inner 16 box is fine. If the path were `y=0`
 
 When you inline two such files, `clip0_1_1` collides even if you “already removed one clip” in the first icon and not the second. Prefix or strip ids after the clips are gone so empty `defs` can be dropped.
 
-## Inspect the scene, then stop
+## What I actually do when this happens
 
 ![Paste SVG, read the preview, fix clip and transform once before sizing or converting](./images/05-inspect-source-preview.svg)
 
-1. **Paste the raw export.** XML, not JSX. `clip-path` is easier to grep than `clipPath={}`.
-2. **Name the picture.** Empty / shifted / clipped / padded. Use the table above.
-3. **Delete one node at a time** with the preview visible. Restored after dropping `clip-path`? That was the Frame. Jumped into the box after removing `translate`? Flatten that group.
-4. **Compare `viewBox` to `getBBox()`.** An order of magnitude off means you still have a page. Off by a stroke width means pad the viewBox (stroke is not in bbox).
-5. **Stop when the preview is the glyph**, on a tight `viewBox`, with no Frame clip.
+Paste the raw export first, not JSX; `clip-path` is easier to search for than `clipPath={}`. Give the symptom a name — empty, shifted, clipped, or padded — and use that to choose where to look. Keep the preview visible while removing one node at a time. If dropping `clip-path` restores the glyph, you found the Frame. If removing `translate` moves it into place, flatten that group.
 
-The editor on [getsvgeditor.com](https://getsvgeditor.com) is built for that loop: source on one side, preview on the other. You are not converting yet. You are asking whether the document still describes a page.
+Then compare `viewBox` with `getBBox()`. A difference of an order of magnitude means the file probably still contains a page. A difference of roughly one stroke width means the box needs padding, since stroke is not included in the default bbox. Stop once the preview shows the glyph in a tight viewBox without an unnecessary Frame clip.
+
+The editor on [getsvgeditor.com](https://getsvgeditor.com) is handy here because the source and preview stay visible together. At this point I am not “optimizing” anything. I am just checking whether the file still describes a page.
 
 Cleaned-up chevron from the start of this article:
 
@@ -296,18 +282,8 @@ Cleaned-up chevron from the start of this article:
 
 The `d` values changed because flatten moved the chevron from local `4…18` inside `translate(712 438)` onto a 24 grid. That rewrite belongs in Figma (or one careful edit), not at every place the icon is used.
 
-### Diagnosis audit
+### Before changing the CSS
 
-Before anyone “fixes” stroke in CSS:
+Ask what `viewBox` actually describes: the glyph, a Frame, a page, or a Section. Look for a Frame-sized `clip-path` or `mask`, and for a `translate`/`matrix` that only records page position. Check that `getBBox()` is in the same general range as the viewBox, leaving room for the stroke. Make sure the strokes are not flush with the edge and that the exported selection was the icon Frame rather than the desktop around it.
 
-1. Does `viewBox` describe the **glyph**, or a Frame / page / Section?
-2. Is Clip content sitting in the file as `clip-path` / `mask` whose rect equals the Frame?
-3. Is there `translate` / `matrix` that only stores page position?
-4. Does `getBBox()` roughly match `viewBox` (stroke is not in bbox)?
-5. Are strokes flush to the box edge (overflow / clip)?
-6. Did you export the icon Frame — or a selection on the desktop?
-7. Is Figma’s canvas the thing that “looks right,” while the XML still describes a page?
-
-If 1–4 fail, do not discuss `currentColor`, SVGO presets, or React props yet.
-
-Treat “looks broken” as a cue to **read the XML next to a preview**, not as a CSS mystery and not as a reason to thicken the stroke. Once the scene is gone, the path was almost always fine.
+Only after that would I touch `currentColor`, an SVGO preset, or React props. When an SVG looks broken, reading the XML beside a browser preview is usually faster than guessing at CSS. In this particular failure mode, the path is very often the part that was right all along.
